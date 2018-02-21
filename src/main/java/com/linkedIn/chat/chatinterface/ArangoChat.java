@@ -1,6 +1,6 @@
 package com.linkedIn.chat.chatinterface;
 
-import com.linkedIn.chat.Message;
+import com.linkedIn.chat.models.Message;
 
 public class ArangoChat implements ChatInterface{
 

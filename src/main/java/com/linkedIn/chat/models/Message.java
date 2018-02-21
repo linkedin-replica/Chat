@@ -1,4 +1,4 @@
-package com.linkedIn.chat;
+package com.linkedIn.chat.models;
 
 import java.util.Date;
 
