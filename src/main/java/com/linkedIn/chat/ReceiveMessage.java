@@ -19,6 +19,7 @@ public class ReceiveMessage extends Command{
 		// TODO Auto-generated method stub
 		
 		// poll server and check if there is new addition with me as a receiver and get that msg
+		//detect change
 		return null;
 	}
 

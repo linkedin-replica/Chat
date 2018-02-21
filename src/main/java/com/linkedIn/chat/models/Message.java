@@ -15,12 +15,12 @@ import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 public class Message {
-public String sentFrom;
-public String sentTo;
-public Date sentDate;
-public boolean read;
-public Date readDate;
-public String msg;
+private String sentFrom;
+private String sentTo;
+private Date sentDate;
+private boolean read;
+private Date readDate;
+private String msg;
 public Message(String sentFrom, String sentTo,Date sentDate, boolean read,Date readDate,String msg) {
 	this.sentFrom = sentFrom;
 	this.sentTo = sentTo;
