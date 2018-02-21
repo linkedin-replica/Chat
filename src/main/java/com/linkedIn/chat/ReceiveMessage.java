@@ -20,6 +20,10 @@ public class ReceiveMessage extends Command{
 		
 		// poll server and check if there is new addition with me as a receiver and get that msg
 		//detect change
+		
+		
+		
+		
 		return null;
 	}
 
