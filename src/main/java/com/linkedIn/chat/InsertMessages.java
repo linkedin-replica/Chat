@@ -23,9 +23,9 @@ import com.linkedIn.chat.models.Message;
 
 import redis.clients.jedis.Jedis;
 
-public class SendMessage extends Command{
+public class InsertMessages extends Command{
 	int numberOfMessages=0;
-	public SendMessage(HashMap<String, String> hMap) {
+	public InsertMessages(HashMap<String, String> hMap) {
 		super(hMap);
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +47,7 @@ public class SendMessage extends Command{
 			
 			ArangoCollection m=aDB.db().collection("messages");
 			ArrayList<Message> allMessages=new ArrayList<Message>();
-			//Jedis jedis= DatabaseConnection.getInstance().getRedis();
+			
 			while(numberOfMessages<20) {
 				Message msg=new Message(hMap.get("from"), hMap.get("to"), new Date(hMap.get("date")), false, null, hMap.get("message"));
 				allMessages.add(msg);
@@ -55,10 +55,7 @@ public class SendMessage extends Command{
 				
 			}
 			if(numberOfMessages==19) {
-				//int i=0;
-			
-				// Map<String, String> properties = jedis.hgetAll("*");
-				for (Message message : allMessages) {
+								for (Message message : allMessages) {
 					JsonObject value=Json.createObjectBuilder()
 				            .add("message", message.getMsg())
 				            .add("sender", message.getSentFrom())
@@ -74,27 +71,6 @@ public class SendMessage extends Command{
 			}
 			
 			//TODO
-			
-			//send post add url
-			 URL url = new URL("");
-			 HttpURLConnection connection = null;
-			 connection = (HttpURLConnection) url.openConnection();
-			    connection.setRequestMethod("POST");
-			    connection.setRequestProperty("Content-Type", 
-			        "application/x-www-form-urlencoded");
-			
-//			    connection.setRequestProperty("Content-Length", 
-//			            Integer.toString(urlParameters.getBytes().length));
-//			        connection.setRequestProperty("Content-Language", "en-US");  
-//
-//			        connection.setUseCaches(false);
-//			        connection.setDoOutput(true);
-//
-//			        //Send request
-//			        DataOutputStream wr = new DataOutputStream (
-//			            connection.getOutputStream());
-//			        wr.writeBytes(urlParameters);
-//			        wr.close();
 			
 			
 			
