@@ -18,7 +18,7 @@ import javax.json.JsonObject;
 
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoDB;
-import com.linkedIn.chat.chatinterface.ArangoChat;
+import com.linkedIn.chat.chatinterface.ArangoChatHandler;
 import com.linkedIn.chat.models.Message;
 
 import redis.clients.jedis.Jedis;
@@ -40,7 +40,7 @@ public class InsertMessage extends Command{
 	public String execute()  {
 		// TODO Auto-generated method stub
 		try {
-			ArangoChat ac=new ArangoChat();
+			ArangoChatHandler ac=new ArangoChatHandler();
 	
 if(numberOfMessages<20) {
 	Message msg=new Message(hMap.get("from"), hMap.get("to"), new Date(hMap.get("date")), false, null, hMap.get("message"));

@@ -1,6 +1,9 @@
 package com.linkedIn.chat;
 
+import java.io.IOException;
 import java.util.HashMap;
+
+import com.linkedIn.chat.chatinterface.ArangoChatHandler;
 
 public class GetHistory extends Command{
 
@@ -17,11 +20,16 @@ public class GetHistory extends Command{
 	@Override
 	public String execute() {
 		// TODO Auto-generated method stub
+		 String userId1 = hMap.get("userId1");
+		 String userId2 = hMap.get("userId2");
 		
-		// poll server and check if there is new addition with me as a receiver and get that msg
-		//detect change
-		
-		
+		 try {
+			ArangoChatHandler ac=new ArangoChatHandler();
+			ac.getChatHistory(userId1, userId2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		return null;

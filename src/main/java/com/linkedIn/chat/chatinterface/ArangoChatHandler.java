@@ -13,11 +13,11 @@ import com.arangodb.ArangoDatabase;
 import com.linkedIn.chat.ConfigReader;
 import com.linkedIn.chat.models.Message;
 
-public class ArangoChat implements ChatInterface{
+public class ArangoChatHandler implements ChatInterface{
 	 private ArangoDatabase dbInstance;
 	    private ArangoCollection collection;
 	    private String collectionName;
-	    public ArangoChat() throws IOException {
+	    public ArangoChatHandler() throws IOException {
 	    	 ConfigReader config = ConfigReader.getInstance();
 	         ArangoDB arangoDriver = DatabaseConnection.getDBConnection().getArangoDriver();
 	         collectionName = config.getArangoConfig("collection.messages.name");

@@ -10,7 +10,7 @@ import javax.json.JsonObject;
 
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoDB;
-import com.linkedIn.chat.chatinterface.ArangoChat;
+import com.linkedIn.chat.chatinterface.ArangoChatHandler;
 
 public class MarkAsRead extends Command{
 
@@ -31,7 +31,7 @@ public class MarkAsRead extends Command{
 			String readDate=hMap.get("read_date");
 	    
 	       try {
-			ArangoChat ac=new ArangoChat();
+			ArangoChatHandler ac=new ArangoChatHandler();
 			ac.markAsRead(messageId,readDate);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

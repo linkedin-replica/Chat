@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.linkedIn.chat.models.Message;
 
-public class RedisChat implements ChatInterface{
+public class RedisChatHandler implements ChatInterface{
 
 	public void insertMessage(Message msg) {
 		// TODO Auto-generated method stub
