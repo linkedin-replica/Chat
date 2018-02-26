@@ -1,6 +1,6 @@
 package com.linkedIn.chat.chatinterface;
 import com.arangodb.ArangoDB;
-import com.linkedIn.chat.ConfigReader;
+import com.linkedin.commands.ConfigReader;
 
 import java.io.IOException;
 
@@ -12,7 +12,6 @@ class DatabaseConnection {
 
     private DatabaseConnection() throws IOException {
         config = ConfigReader.getInstance();
-
         initializeArangoDB();
     }
 
@@ -22,7 +21,6 @@ class DatabaseConnection {
                 .password(config.getArangoConfig("arangodb.password"))
                 .build();
     }
-
   
     static DatabaseConnection getDBConnection() throws IOException {
         if(dbConnection == null) {

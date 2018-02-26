@@ -1,5 +1,4 @@
-package com.linkedIn.chat;
-
+package com.linkedin.commands;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,17 +32,16 @@ public class ConfigReader {
                     instance = new ConfigReader();
             }
         }
-
         return instance;
     }
 
-    public Class getCommandClass(String commandName) throws ClassNotFoundException {
+    public Class<?> getCommandClass(String commandName) throws ClassNotFoundException {
         String commandsPackageName = appConfig.getProperty("package.commands");
         String commandClass = commandsPackageName + '.' + commandNameToClass.get(commandName);
         return Class.forName(commandClass);
     }
 
-    public Class getNoSqlHandler() throws ClassNotFoundException {
+    public Class<?> getNoSqlHandler() throws ClassNotFoundException {
         String handlersPackageName = appConfig.getProperty("package.handlers");
         return Class.forName(handlersPackageName + '.' + appConfig.get("handler.nosql"));
     }
