@@ -1,5 +1,7 @@
 package com.linkedIn.chat.chatinterface;
 
+import java.util.List;
+
 import com.linkedIn.chat.models.Message;
 
 public class RedisChat implements ChatInterface{
@@ -9,14 +11,16 @@ public class RedisChat implements ChatInterface{
 		
 	}
 
-	public void getMessage(String userId) {
+	public List<Message> getChatHistory(String userId1, String userId2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public void markAsRead(String messageId, String readDate) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void markAsRead(Message msg) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

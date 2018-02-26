@@ -2,9 +2,9 @@ package com.linkedIn.chat;
 
 import java.util.HashMap;
 
-public class ReceiveMessage extends Command{
+public class GetHistory extends Command{
 
-	public ReceiveMessage(HashMap<String, String> hMap) {
+	public GetHistory(HashMap<String, String> hMap) {
 		super(hMap);
 		// TODO Auto-generated constructor stub
 	}

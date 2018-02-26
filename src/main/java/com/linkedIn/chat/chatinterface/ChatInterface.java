@@ -1,9 +1,11 @@
 package com.linkedIn.chat.chatinterface;
 
+import java.util.List;
+
 import com.linkedIn.chat.models.Message;
 
 public interface ChatInterface {
 public void insertMessage(Message msg);
-public void getMessage(String userId);
-public void markAsRead(Message msg);
+public List<Message> getChatHistory(String userId1,String userId2) ;
+public void markAsRead(String messageId,String readDate);
 }
