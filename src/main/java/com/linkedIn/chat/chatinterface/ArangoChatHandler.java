@@ -63,5 +63,20 @@ public class ArangoChatHandler implements ChatInterface{
         // execute the query
         dbInstance.query(query, bindVars, null, null);
 	}
+	public List<Message> getChatHistory(String userId1, String userId2, int limit, int offset) {
+		// TODO Auto-generated method stub
+		String query = "For m in " + collectionName + " FILTER m.userId1 == @userId1 && m.userId2 == @userId2 +LIMIT " +limit +"OFSSET "+offset+ " RETURN t";
+		  Map<String, Object> bindVars = new HashMap<String, Object>();
+	        bindVars.put("userId1", userId1);
+	        bindVars.put("userId2", userId2);
+
+	        // process query
+	        ArangoCursor<Message> cursor = dbInstance.query(query, bindVars, null, Message.class);
+
+	        ArrayList<Message> result = new ArrayList<Message>();
+	        for(; cursor.hasNext();)
+	            result.add(cursor.next());
+	        return result;
+	}
 
 }

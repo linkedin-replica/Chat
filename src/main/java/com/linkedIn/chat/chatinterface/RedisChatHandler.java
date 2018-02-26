@@ -22,5 +22,10 @@ public class RedisChatHandler implements ChatInterface{
 		
 	}
 
+	public List<Message> getChatHistory(String userId1, String userId2, int limit, int offset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

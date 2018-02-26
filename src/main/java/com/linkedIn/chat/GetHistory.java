@@ -22,10 +22,18 @@ public class GetHistory extends Command{
 		// TODO Auto-generated method stub
 		 String userId1 = hMap.get("userId1");
 		 String userId2 = hMap.get("userId2");
+		 String limit = hMap.get("limit");
+		 String offset = hMap.get("offset");
 		
 		 try {
 			ArangoChatHandler ac=new ArangoChatHandler();
-			ac.getChatHistory(userId1, userId2);
+			 if((limit.equals(null)&&offset.equals(null)||(limit.isEmpty()&&offset.isEmpty()))){
+				 ac.getChatHistory(userId1, userId2);
+			 }
+			 else {
+				 ac.getChatHistory(userId1, userId2,Integer.parseInt(limit),Integer.parseInt(offset));
+			 }
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
