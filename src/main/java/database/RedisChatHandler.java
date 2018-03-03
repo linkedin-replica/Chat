@@ -1,8 +1,8 @@
-package com.linkedIn.chat.chatinterface;
+package database;
 
 import java.util.List;
 
-import com.linkedIn.chat.models.Message;
+import models.Message;
 
 public class RedisChatHandler implements ChatInterface{
 
@@ -17,7 +17,7 @@ public class RedisChatHandler implements ChatInterface{
 	}
 
 
-	public void markAsRead(String messageId, String readDate) {
+	public void markAsRead(String messageId) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -26,6 +26,20 @@ public class RedisChatHandler implements ChatInterface{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Message getMessage(String messageId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Message getLatestMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	
 
 
 }

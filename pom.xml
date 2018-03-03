@@ -14,34 +14,36 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+<dependencies>
+
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>3.8.1</version>
+    <scope>test</scope>
+ </dependency>
 
  <dependency>
    <groupId>com.arangodb</groupId>
    <artifactId>arangodb-java-driver</artifactId>
-   <version>4.3.0</version>
+   <version>4.3.1</version>
  </dependency>
  
  <dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>2.9.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
+	<groupId>redis.clients</groupId>
+	<artifactId>jedis</artifactId>
+	<version>2.9.0</version>
+	<type>jar</type>
+	<scope>compile</scope>
+</dependency>
 
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>6.0.6</version>
-		</dependency>
-		<dependency>
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>6.0.6</version>
+</dependency>
+		
+<dependency>
     <groupId>javax.json</groupId>
     <artifactId>javax.json-api</artifactId>
     <version>1.1</version>
@@ -52,17 +54,13 @@
     <artifactId>javax.json</artifactId>
     <version>1.1</version>
 </dependency>
+
 <dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>javax-websocket-server-impl</artifactId>
-			<version>9.2.7.v20150116</version>
-			<scope>provided</scope>
-		</dependency>
-		 <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.3</version>
-        </dependency>
-</dependencies>`
+	<groupId>org.eclipse.jetty.websocket</groupId>
+	<artifactId>javax-websocket-server-impl</artifactId>
+	<version>9.2.7.v20150116</version>
+	<scope>provided</scope>
+</dependency>
+</dependencies>
 
 </project>

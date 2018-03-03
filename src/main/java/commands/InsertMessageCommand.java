@@ -1,4 +1,4 @@
-package com.linkedIn.chat;
+package commands;
 
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -18,15 +18,16 @@ import javax.json.JsonObject;
 
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoDB;
-import com.linkedIn.chat.chatinterface.ArangoChatHandler;
-import com.linkedIn.chat.models.Message;
 
+import database.ArangoChatHandler;
+import models.Command;
+import models.Message;
 import redis.clients.jedis.Jedis;
 
-public class InsertMessage extends Command{
+public class InsertMessageCommand extends Command{
 	int numberOfMessages=0;
 	ArrayList<Message> allMessages=new ArrayList<Message>();
-	public InsertMessage(HashMap<String, String> hMap) {
+	public InsertMessageCommand(HashMap<String, String> hMap) {
 		super(hMap);
 		// TODO Auto-generated constructor stub
 	}
@@ -43,7 +44,7 @@ public class InsertMessage extends Command{
 			ArangoChatHandler ac=new ArangoChatHandler();
 	
 if(numberOfMessages<20) {
-	Message msg=new Message(hMap.get("from"), hMap.get("to"), new Date(hMap.get("date")), false, null, hMap.get("message"));
+	Message msg=new Message(hMap.get("from"), hMap.get("to"), new Date(hMap.get("date")), false, hMap.get("message"));
 	allMessages.add(msg);
 	numberOfMessages++;
 }

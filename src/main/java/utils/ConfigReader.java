@@ -1,4 +1,4 @@
-package com.linkedIn.chat;
+package utils;
 
 
 import java.io.FileInputStream;

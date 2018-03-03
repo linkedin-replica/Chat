@@ -1,4 +1,4 @@
-package com.linkedIn.chat;
+package commands;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,11 +10,13 @@ import javax.json.JsonObject;
 
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoDB;
-import com.linkedIn.chat.chatinterface.ArangoChatHandler;
 
-public class MarkAsRead extends Command{
+import database.ArangoChatHandler;
+import models.Command;
 
-	public MarkAsRead(HashMap<String, String> hMap) {
+public class MarkAsReadCommand extends Command{
+
+	public MarkAsReadCommand(HashMap<String, String> hMap) {
 		super(hMap);
 		// TODO Auto-generated constructor stub
 	}
@@ -28,11 +30,11 @@ public class MarkAsRead extends Command{
 	public String execute() {
 		// TODO Auto-generated method stub
 		    String messageId = hMap.get("messageId");
-			String readDate=hMap.get("read_date");
+			
 	    
 	       try {
 			ArangoChatHandler ac=new ArangoChatHandler();
-			ac.markAsRead(messageId,readDate);
+			ac.markAsRead(messageId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

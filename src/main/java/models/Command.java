@@ -1,4 +1,4 @@
-package com.linkedIn.chat;
+package models;
 
 import java.util.HashMap;
 

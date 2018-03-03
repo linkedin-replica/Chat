@@ -1,18 +1,17 @@
-package com.linkedIn.chat.chatinterface;
+package database;
 import com.arangodb.ArangoDB;
-import com.linkedIn.chat.ConfigReader;
+import utils.ConfigReader;
 
 import java.io.IOException;
 
-class DatabaseConnection {
-    private ArangoDB arangoDriver;
+public class DatabaseConnection {
+    private static ArangoDB arangoDriver;
     private ConfigReader config;
 
     private volatile static DatabaseConnection dbConnection;
 
     private DatabaseConnection() throws IOException {
         config = ConfigReader.getInstance();
-
         initializeArangoDB();
     }
 
@@ -22,9 +21,8 @@ class DatabaseConnection {
                 .password(config.getArangoConfig("arangodb.password"))
                 .build();
     }
-
   
-    static DatabaseConnection getDBConnection() throws IOException {
+   public static DatabaseConnection getDBConnection() throws IOException {
         if(dbConnection == null) {
             synchronized (DatabaseConnection.class) {
                 if (dbConnection == null)
@@ -35,7 +33,12 @@ class DatabaseConnection {
     }
 
 
-    ArangoDB getArangoDriver() {
+    public ArangoDB getArangoDriver() {
         return arangoDriver;
     }
+
+	public static void closeConnections() {
+		// TODO Auto-generated method stub
+		arangoDriver.shutdown();
+	}
 }
