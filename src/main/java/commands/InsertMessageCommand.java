@@ -24,9 +24,10 @@ import models.Command;
 import models.Message;
 import redis.clients.jedis.Jedis;
 
-public class InsertMessageCommand extends Command{
-	int numberOfMessages=0;
-	ArrayList<Message> allMessages=new ArrayList<Message>();
+public class InsertMessageCommand extends Command {
+	int numberOfMessages = 0;
+	ArrayList<Message> allMessages = new ArrayList<Message>();
+
 	public InsertMessageCommand(HashMap<String, String> hMap) {
 		super(hMap);
 		// TODO Auto-generated constructor stub
@@ -38,33 +39,32 @@ public class InsertMessageCommand extends Command{
 	}
 
 	@Override
-	public String execute()  {
+	public String execute() {
 		// TODO Auto-generated method stub
 		try {
-			ArangoChatHandler ac=new ArangoChatHandler();
-	
-if(numberOfMessages<20) {
-	Message msg=new Message(hMap.get("from"), hMap.get("to"), new Date(hMap.get("date")), false, hMap.get("message"));
-	allMessages.add(msg);
-	numberOfMessages++;
-}
+			ArangoChatHandler ac = new ArangoChatHandler();
 
-			if(allMessages.size()==20) {
-				for (Message message : allMessages) {
-					
-							ac.insertMessage(message);
-				}
-				
-				allMessages=new ArrayList<Message>();
+			if (numberOfMessages < 20) {
+				Message msg = new Message(hMap.get("from"), hMap.get("to"), new Date(hMap.get("date")), false,
+						hMap.get("message"));
+				allMessages.add(msg);
+				numberOfMessages++;
 			}
-			
+
+			if (allMessages.size() == 20) {
+				for (Message message : allMessages) {
+
+					ac.insertMessage(message);
+				}
+
+				allMessages = new ArrayList<Message>();
+			}
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
 		return null;
-	//}
 	}
 }

@@ -7,7 +7,7 @@ import database.ArangoChatHandler;
 
 import models.Command;
 
-public class GetHistoryCommand extends Command{
+public class GetHistoryCommand extends Command {
 
 	public GetHistoryCommand(HashMap<String, String> hMap) {
 		super(hMap);
@@ -22,26 +22,24 @@ public class GetHistoryCommand extends Command{
 	@Override
 	public String execute() {
 		// TODO Auto-generated method stub
-		 String userId1 = hMap.get("userId1");
-		 String userId2 = hMap.get("userId2");
-		 String limit = hMap.get("limit");
-		 String offset = hMap.get("offset");
-		
-		 try {
-		    ArangoChatHandler ac=new database.ArangoChatHandler();
-			 if((limit.equals(null)&&offset.equals(null)||(limit.isEmpty()&&offset.isEmpty()))){
-				 ac.getChatHistory(userId1, userId2);
-			 }
-			 else {
-				 ac.getChatHistory(userId1, userId2,Integer.parseInt(offset),Integer.parseInt(limit));
-			 }
-			
+		String userId1 = hMap.get("userId1");
+		String userId2 = hMap.get("userId2");
+		String limit = hMap.get("limit");
+		String offset = hMap.get("offset");
+
+		try {
+			ArangoChatHandler ac = new database.ArangoChatHandler();
+			if ((limit.equals(null) && offset.equals(null) || (limit.isEmpty() && offset.isEmpty()))) {
+				ac.getChatHistory(userId1, userId2);
+			} else {
+				ac.getChatHistory(userId1, userId2, Integer.parseInt(offset), Integer.parseInt(limit));
+			}
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		return null;
 	}
 

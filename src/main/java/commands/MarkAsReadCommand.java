@@ -14,7 +14,7 @@ import com.arangodb.ArangoDB;
 import database.ArangoChatHandler;
 import models.Command;
 
-public class MarkAsReadCommand extends Command{
+public class MarkAsReadCommand extends Command {
 
 	public MarkAsReadCommand(HashMap<String, String> hMap) {
 		super(hMap);
@@ -23,23 +23,21 @@ public class MarkAsReadCommand extends Command{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public String execute() {
 		// TODO Auto-generated method stub
-		    String messageId = hMap.get("messageId");
-			
-	    
-	       try {
-			ArangoChatHandler ac=new ArangoChatHandler();
+		String messageId = hMap.get("messageId");
+
+		try {
+			ArangoChatHandler ac = new ArangoChatHandler();
 			ac.markAsRead(messageId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 		return null;
 	}

@@ -4,11 +4,11 @@ import java.util.List;
 
 import models.Message;
 
-public class RedisChatHandler implements ChatInterface{
+public class RedisChatHandler implements ChatInterface {
 
 	public void insertMessage(Message msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public List<Message> getChatHistory(String userId1, String userId2) {
@@ -16,10 +16,9 @@ public class RedisChatHandler implements ChatInterface{
 		return null;
 	}
 
-
 	public void markAsRead(String messageId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public List<Message> getChatHistory(String userId1, String userId2, int limit, int offset) {
@@ -36,10 +35,5 @@ public class RedisChatHandler implements ChatInterface{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
-
-	
-
 
 }
