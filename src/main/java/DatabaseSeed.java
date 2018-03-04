@@ -28,7 +28,7 @@ public class DatabaseSeed {
 		String collectionName = properties.getProperty("collection.messages.name");
 
 		try {
-			System.out.println(arangoDB);
+			//TODO check if collection exists 
 			arangoDB.db(dbName).createCollection(collectionName);
 
 		} catch (ArangoDBException ex) {

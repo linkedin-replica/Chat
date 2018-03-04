@@ -43,7 +43,6 @@ public class ArangoChatHandlerTest {
 			check = true;
 
 		assertEquals("Message was not marked as read properly.", true, check);
-		check = false;
 
 	}
 
@@ -59,7 +58,6 @@ public class ArangoChatHandlerTest {
 			check = true;
 
 		assertEquals("Not inserted", true, check);
-		check = false;
 
 	}
 

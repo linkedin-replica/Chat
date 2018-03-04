@@ -28,6 +28,7 @@ public class GetHistoryCommand extends Command {
 		String offset = hMap.get("offset");
 
 		try {
+			//TODO 
 			ArangoChatHandler ac = new database.ArangoChatHandler();
 			if ((limit.equals(null) && offset.equals(null) || (limit.isEmpty() && offset.isEmpty()))) {
 				ac.getChatHistory(userId1, userId2);
