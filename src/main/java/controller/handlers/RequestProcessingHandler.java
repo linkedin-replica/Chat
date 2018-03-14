@@ -11,6 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import models.Request;
 import models.RequestType;
+import services.ChatService;
 
 
 public class RequestProcessingHandler extends ChannelInboundHandlerAdapter{

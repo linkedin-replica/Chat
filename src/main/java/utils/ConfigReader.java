@@ -4,9 +4,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import database.ChatInterface;
+
 public class ConfigReader {
 
-	private Properties commandNameToClass = new Properties();
+	private static Properties commandNameToClass = new Properties();
 	private Properties appConfig = new Properties();
 	private Properties arangoConfig = new Properties();
 
@@ -50,4 +52,11 @@ public class ConfigReader {
 	public String getArangoConfig(String key) {
 		return arangoConfig.getProperty(key);
 	}
+
+
+	    public static Class getHandlerClass(String commandName) throws ClassNotFoundException {
+	        String handlerPackageName = ChatInterface.class.getPackage().getName() + ".impl";
+	        String handlerClassPath = handlerPackageName + "." + commandNameToClass.get(commandName + ".handler");
+	        return Class.forName(handlerClassPath);
+	    }
 }
