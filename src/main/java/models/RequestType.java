@@ -1,9 +1,8 @@
 package models;
 public enum RequestType {
-	USERS("search.user"), 
-	COMPANIES("search.company"), 
-	JOBS("search.job"), 
-	POSTS("search.post");
+	INSERT("send.msg"), 
+	MARKASREAD("mark.read"), 
+	HISTORY("get.history");
 	
 	private String commandName;
 	
