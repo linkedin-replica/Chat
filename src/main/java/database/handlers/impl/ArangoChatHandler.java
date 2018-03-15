@@ -30,13 +30,11 @@ public class ArangoChatHandler implements ChatHandler {
 	}
 
 	public void insertMessage(Message msg) {
-		// TODO Auto-generated method stub
 		collection.insertDocument(msg);
 	}
 
 	public Message getMessage(String messageId) {
 
-		// TODO Auto-generated method stub
 		String query = "For m in " + collectionName + " FILTER m.messageId == @messageId RETURN m";
 		Map<String, Object> bindVars = new HashMap<String, Object>();
 		bindVars.put("messageId", messageId);
@@ -51,7 +49,6 @@ public class ArangoChatHandler implements ChatHandler {
 
 	public List<Message> getChatHistory(String userId1, String userId2) {
 
-		// TODO Auto-generated method stub
 		String query = "For m in " + collectionName
 				+ " FILTER (m.sentFrom == @userId1 && m.sentTo == @userId2)|| (m.sentFrom == @userId2 && m.sentTo == @userId1)  RETURN m";
 		Map<String, Object> bindVars = new HashMap<String, Object>();
@@ -68,7 +65,6 @@ public class ArangoChatHandler implements ChatHandler {
 	}
 
 	public void markAsRead(String messageId) {
-		// TODO Auto-generated method stub
 		// form the query
 		String query = "FOR m in " + collectionName + " FILTER" + " m.messageId == @messageId &&" + " m.read == false"
 				+ " UPDATE { _key: m._key, read: true} IN " + collectionName;
@@ -82,7 +78,6 @@ public class ArangoChatHandler implements ChatHandler {
 	}
 
 	public List<Message> getChatHistory(String userId1, String userId2, int offset, int limit) {
-		// TODO Auto-generated method stub
 		String query = "For m in " + collectionName
 				+ " FILTER (m.sentFrom == @userId1 && m.sentTo == @userId2)|| (m.sentFrom == @userId2 && m.sentTo == @userId1) LIMIT "
 				+ offset + ", " + limit + " RETURN m";
@@ -100,11 +95,10 @@ public class ArangoChatHandler implements ChatHandler {
 	}
 
 	public Message getLatestMessage() {
-		// TODO Auto-generated method stub
 		String query = "For m in " + collectionName + " Sort m._key desc RETURN m";
 		Map<String, Object> bindVars = new HashMap<String, Object>();
 
-		// Process query
+		// process query
 		ArangoCursor<Message> cursor = dbInstance.query(query, null, null, Message.class);
 		Message result = new Message();
 

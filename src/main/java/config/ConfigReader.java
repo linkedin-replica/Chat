@@ -38,13 +38,13 @@ public class ConfigReader {
 		return instance;
 	}
 
-	public Class getCommandClass(String commandName) throws ClassNotFoundException {
+	public Class<?> getCommandClass(String commandName) throws ClassNotFoundException {
 		String commandsPackageName = appConfig.getProperty("package.commands");
 		String commandClass = commandsPackageName + '.' + commandNameToClass.get(commandName);
 		return Class.forName(commandClass);
 	}
 
-	public Class getNoSqlHandler() throws ClassNotFoundException {
+	public Class<?> getNoSqlHandler() throws ClassNotFoundException {
 		String handlersPackageName = appConfig.getProperty("package.handlers");
 		return Class.forName(handlersPackageName + '.' + appConfig.get("handler.nosql"));
 	}
@@ -54,7 +54,7 @@ public class ConfigReader {
 	}
 
 
-	    public static Class getHandlerClass(String commandName) throws ClassNotFoundException {
+	    public static Class<?> getHandlerClass(String commandName) throws ClassNotFoundException {
 	        String handlerPackageName = ChatHandler.class.getPackage().getName() + ".impl";
 	        String handlerClassPath = handlerPackageName + "." + commandNameToClass.get(commandName + ".handler");
 	        return Class.forName(handlerClassPath);

@@ -1,28 +1,12 @@
 package commands;
 
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-
-import com.arangodb.ArangoCollection;
-import com.arangodb.ArangoDB;
-
 import database.handlers.impl.ArangoChatHandler;
 import models.Command;
 import models.Message;
-import redis.clients.jedis.Jedis;
 
 public class InsertMessageCommand extends Command {
 	int numberOfMessages = 0;
@@ -30,17 +14,10 @@ public class InsertMessageCommand extends Command {
 
 	public InsertMessageCommand(HashMap<String, String> hMap) {
 		super(hMap);
-		// TODO Auto-generated constructor stub
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public String execute() {
-		// TODO Auto-generated method stub
 		try {
 			ArangoChatHandler ac = new ArangoChatHandler();
 
@@ -60,8 +37,8 @@ public class InsertMessageCommand extends Command {
 				allMessages = new ArrayList<Message>();
 			}
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 

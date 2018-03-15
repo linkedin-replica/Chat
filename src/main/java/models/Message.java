@@ -28,7 +28,6 @@ public class Message {
 		this.sentTo = sentTo;
 		this.sentDate = sentDate;
 		this.read = read;
-
 		this.msg = msg;
 	}
 
@@ -38,7 +37,6 @@ public class Message {
 		this.sentTo = sentTo;
 		this.sentDate = sentDate;
 		this.read = read;
-
 		this.msg = msg;
 	}
 
