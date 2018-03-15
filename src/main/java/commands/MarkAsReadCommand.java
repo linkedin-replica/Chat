@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import database.handlers.impl.ArangoChatHandler;
-import models.Command;
 
 public class MarkAsReadCommand extends Command {
 
@@ -13,17 +12,10 @@ public class MarkAsReadCommand extends Command {
 	}
 
 	@Override
-	public String execute() {
+	public String execute() throws IOException{
 		String messageId = hMap.get("messageId");
-
-		try {
-			ArangoChatHandler ac = new ArangoChatHandler();
-			ac.markAsRead(messageId);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		ArangoChatHandler ac = new ArangoChatHandler();
+		ac.markAsRead(messageId);
 		return null;
 	}
 

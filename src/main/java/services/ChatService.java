@@ -6,9 +6,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import commands.Command;
 import config.ConfigReader;
 import database.handlers.ChatHandler;
-import models.Command;
 
 /**
  * Chat Service is responsible for taking input from controller, reading commands config file to 
@@ -25,7 +25,7 @@ public class ChatService {
         config = ConfigReader.getInstance();
 	}
 		
-	public  Object serve(String commandName, HashMap<String, String> args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+	public  Object serve(String commandName, HashMap<String, String> args) throws Exception {
 
         Class<?> dbHandlerClass = ConfigReader.getHandlerClass(commandName);
         ChatHandler dbHandler = (ChatHandler) dbHandlerClass.newInstance();

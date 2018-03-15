@@ -53,7 +53,6 @@ public class DatabaseSeed {
 			newDoc.addAttribute("read", Boolean.parseBoolean(arr[3]));
 			newDoc.addAttribute("msg", arr[4]);
 			arangoDB.db(dbName).collection(collectionName).insertDocument(newDoc);
-			// System.out.println("New msg document insert with key = " + newDoc.getId());
 			counter++;
 		}
 		return counter;

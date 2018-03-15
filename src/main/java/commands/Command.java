@@ -1,4 +1,4 @@
-package models;
+package commands;
 
 import java.util.HashMap;
 
@@ -10,5 +10,5 @@ public abstract class Command {
 		this.hMap = hMap;
 	}
 
-	public abstract String execute();
+	public abstract String execute() throws Exception;
 }
