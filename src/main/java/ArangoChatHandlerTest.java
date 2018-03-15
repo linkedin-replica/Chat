@@ -18,17 +18,14 @@ import models.Message;
 import static org.junit.Assert.assertEquals;
 
 public class ArangoChatHandlerTest {
-	private static DatabaseSeed dbSeed;
+	private DatabaseSeed dbSeed;
 	static int counter = 0;
 
 	@BeforeClass
-	public static void setup() throws ClassNotFoundException, IOException, SQLException {
-		String[] args = { "src/main/resources/database_config", "src/main/resources/command_config",
-				"src/main/resources/arango_names" };
+	public void setup() throws ClassNotFoundException, IOException, SQLException {
 		Chat.start();
-		dbSeed = new DatabaseSeed();
-		counter = dbSeed.insertMessages();
-
+		this.dbSeed = new DatabaseSeed();
+		counter = this.dbSeed.insertMessages();
 	}
 
 	@Test
