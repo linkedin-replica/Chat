@@ -1,10 +1,10 @@
-package database;
+package database.handlers;
 
 import java.util.List;
 
 import models.Message;
 
-public interface ChatInterface {
+public interface ChatHandler extends DatabaseHandler{
 
 	public void insertMessage(models.Message msg);
 

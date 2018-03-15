@@ -19,7 +19,7 @@ import javax.json.JsonObject;
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoDB;
 
-import database.ArangoChatHandler;
+import database.handlers.impl.ArangoChatHandler;
 import models.Command;
 import models.Message;
 import redis.clients.jedis.Jedis;

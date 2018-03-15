@@ -3,8 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import config.ConfigReader;
 import database.DatabaseConnection;
-import utils.ConfigReader;
 
 public class Chat {
 

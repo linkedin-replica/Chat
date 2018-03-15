@@ -1,7 +1,8 @@
 package database;
 
 import com.arangodb.ArangoDB;
-import utils.ConfigReader;
+
+import config.ConfigReader;
 
 import java.io.IOException;
 

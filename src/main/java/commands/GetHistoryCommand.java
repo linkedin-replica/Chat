@@ -3,8 +3,7 @@ package commands;
 import java.io.IOException;
 import java.util.HashMap;
 
-import database.ArangoChatHandler;
-
+import database.handlers.impl.ArangoChatHandler;
 import models.Command;
 
 public class GetHistoryCommand extends Command {
@@ -29,7 +28,7 @@ public class GetHistoryCommand extends Command {
 
 		try {
 			//TODO 
-			ArangoChatHandler ac = new database.ArangoChatHandler();
+			ArangoChatHandler ac = new database.handlers.impl.ArangoChatHandler();
 			if ((limit.equals(null) && offset.equals(null) || (limit.isEmpty() && offset.isEmpty()))) {
 				ac.getChatHistory(userId1, userId2);
 			} else {

@@ -1,4 +1,4 @@
-package controller.handlers;
+package models;
 
 public class SuccessResponseModel {
 	private int code;

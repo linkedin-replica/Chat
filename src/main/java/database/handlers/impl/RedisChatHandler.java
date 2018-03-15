@@ -1,10 +1,11 @@
-package database;
+package database.handlers.impl;
 
 import java.util.List;
 
+import database.handlers.ChatHandler;
 import models.Message;
 
-public class RedisChatHandler implements ChatInterface {
+public class RedisChatHandler implements ChatHandler {
 
 	public void insertMessage(Message msg) {
 		// TODO Auto-generated method stub

@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import com.arangodb.ArangoDBException;
 
-import database.ArangoChatHandler;
-import database.ChatInterface;
+import database.handlers.ChatHandler;
+import database.handlers.impl.ArangoChatHandler;
 import models.Message;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +31,7 @@ public class ArangoChatHandlerTest {
 	@Test
 	public void testMarkAsRead() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
 		String searchKey = "1";
-		ChatInterface dbHandler = new ArangoChatHandler();
+		ChatHandler dbHandler = new ArangoChatHandler();
 		dbHandler.markAsRead(searchKey);
 		Message result = dbHandler.getMessage(searchKey);
 		boolean check = false;
@@ -47,7 +47,7 @@ public class ArangoChatHandlerTest {
 	public void testInsertMessage() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
 
 		Message msg = new Message(counter + "", "1", "2", new Date(), false, "jojojojoojjojojojojo");
-		ChatInterface dbHandler = new ArangoChatHandler();
+		ChatHandler dbHandler = new ArangoChatHandler();
 		dbHandler.insertMessage(msg);
 		Message res = dbHandler.getLatestMessage();
 		boolean check = false;
@@ -61,7 +61,7 @@ public class ArangoChatHandlerTest {
 	@Test
 	public void testGetChatHistory() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
 
-		ChatInterface dbHandler = new ArangoChatHandler();
+		ChatHandler dbHandler = new ArangoChatHandler();
 		List<Message> msgs = dbHandler.getChatHistory("0", "2");
 		assertEquals("History not retrieved", 3, msgs.size());
 
@@ -71,7 +71,7 @@ public class ArangoChatHandlerTest {
 	public void testGetChatHistoryWithOffsetLimit()
 			throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
 
-		ChatInterface dbHandler = new ArangoChatHandler();
+		ChatHandler dbHandler = new ArangoChatHandler();
 		List<Message> msgs = dbHandler.getChatHistory("0", "2", 1, 2);
 		assertEquals("History not retrieved", 2, msgs.size());
 

@@ -1,10 +1,10 @@
-package utils;
+package config;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import database.ChatInterface;
+import database.handlers.ChatHandler;
 
 public class ConfigReader {
 
@@ -55,7 +55,7 @@ public class ConfigReader {
 
 
 	    public static Class getHandlerClass(String commandName) throws ClassNotFoundException {
-	        String handlerPackageName = ChatInterface.class.getPackage().getName() + ".impl";
+	        String handlerPackageName = ChatHandler.class.getPackage().getName() + ".impl";
 	        String handlerClassPath = handlerPackageName + "." + commandNameToClass.get(commandName + ".handler");
 	        return Class.forName(handlerClassPath);
 	    }

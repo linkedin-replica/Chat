@@ -4,13 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
-
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import models.ErrorResponseModel;
 import models.Request;
-import models.RequestType;
+import models.SuccessResponseModel;
 import services.ChatService;
 
 

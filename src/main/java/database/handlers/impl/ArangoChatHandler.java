@@ -1,4 +1,4 @@
-package database;
+package database.handlers.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,10 +10,13 @@ import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDatabase;
-import models.Message;
-import utils.ConfigReader;
 
-public class ArangoChatHandler implements ChatInterface {
+import config.ConfigReader;
+import database.DatabaseConnection;
+import database.handlers.ChatHandler;
+import models.Message;
+
+public class ArangoChatHandler implements ChatHandler {
 	private ArangoDatabase dbInstance;
 	private ArangoCollection collection;
 	private String collectionName;

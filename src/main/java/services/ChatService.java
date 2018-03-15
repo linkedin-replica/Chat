@@ -6,14 +6,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-
-
-import database.ChatInterface;
+import config.ConfigReader;
+import database.handlers.ChatHandler;
 import models.Command;
-import utils.ConfigReader;
 
 /**
- * Search Service is responsible for taking input from controller, reading commands config file to 
+ * Chat Service is responsible for taking input from controller, reading commands config file to 
  * get specific command responsible for handling input request and also get DatabaseHandler name
  * Associated with this command 
  * 
@@ -30,10 +28,10 @@ public class ChatService {
 	public  Object serve(String commandName, HashMap<String, String> args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         Class<?> dbHandlerClass = ConfigReader.getHandlerClass(commandName);
-        ChatInterface dbHandler = (ChatInterface) dbHandlerClass.newInstance();
+        ChatHandler dbHandler = (ChatHandler) dbHandlerClass.newInstance();
 
         Class<?> commandClass = config.getCommandClass(commandName);
-        Constructor constructor = commandClass.getConstructor(new Class<?>[]{HashMap.class, ChatInterface.class});
+        Constructor<?> constructor = commandClass.getConstructor(new Class<?>[]{HashMap.class, ChatHandler.class});
         Command command = (Command) constructor.newInstance(args,dbHandler);
 
         return command.execute();
