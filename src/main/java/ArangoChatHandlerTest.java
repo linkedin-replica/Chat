@@ -11,8 +11,9 @@ import org.junit.Test;
 
 import com.arangodb.ArangoDBException;
 
+import Main.Chat;
+import database.handlers.ArangoChatHandler;
 import database.handlers.ChatHandler;
-import database.handlers.impl.ArangoChatHandler;
 import models.Message;
 
 import static org.junit.Assert.assertEquals;

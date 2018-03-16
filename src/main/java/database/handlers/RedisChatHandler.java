@@ -1,8 +1,7 @@
-package database.handlers.impl;
+package database.handlers;
 
 import java.util.List;
 
-import database.handlers.ChatHandler;
 import models.Message;
 
 public class RedisChatHandler implements ChatHandler {

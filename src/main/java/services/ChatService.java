@@ -17,6 +17,7 @@ import database.handlers.ChatHandler;
  * 
  * It will call command execute method after passing to its DatabaseHandler
  */
+
 public class ChatService {
     private ConfigReader config;
 
@@ -25,7 +26,7 @@ public class ChatService {
         config = ConfigReader.getInstance();
 	}
 		
-	public  Object serve(String commandName, HashMap<String, String> args) throws Exception {
+	public Object serve(String commandName, HashMap<String, String> args) throws Exception {
 
         Class<?> dbHandlerClass = ConfigReader.getHandlerClass(commandName);
         ChatHandler dbHandler = (ChatHandler) dbHandlerClass.newInstance();

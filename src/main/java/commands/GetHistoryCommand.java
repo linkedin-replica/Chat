@@ -3,12 +3,13 @@ package commands;
 import java.io.IOException;
 import java.util.HashMap;
 
-import database.handlers.impl.ArangoChatHandler;
+import database.handlers.ArangoChatHandler;
+import database.handlers.ChatHandler;
 
 public class GetHistoryCommand extends Command {
 
-	public GetHistoryCommand(HashMap<String, String> hMap) {
-		super(hMap);
+	public GetHistoryCommand(HashMap<String, String> args) {
+		super(args);
 	}
 
 	public static void main(String[] args) {
@@ -17,16 +18,18 @@ public class GetHistoryCommand extends Command {
 
 	@Override
 	public String execute() throws IOException{
-		String userId1 = hMap.get("userId1");
-		String userId2 = hMap.get("userId2");
-		String limit = hMap.get("limit");
-		String offset = hMap.get("offset");
+		String userId1 = args.get("userId1");
+		String userId2 = args.get("userId2");
+		String limit = args.get("limit");
+		String offset = args.get("offset");
 
-		ArangoChatHandler ac = new database.handlers.impl.ArangoChatHandler();
+		ChatHandler chatHandler = (ChatHandler) this.dbHandler;
+        //TODO Validate args from chatHandler
+		
 		if ((limit.equals(null) && offset.equals(null) || (limit.isEmpty() && offset.isEmpty()))) {
-			ac.getChatHistory(userId1, userId2);
+			chatHandler.getChatHistory(userId1, userId2);
 		} else {
-			ac.getChatHistory(userId1, userId2, Integer.parseInt(offset), Integer.parseInt(limit));
+			chatHandler.getChatHistory(userId1, userId2, Integer.parseInt(offset), Integer.parseInt(limit));
 		}
 
 		return null;

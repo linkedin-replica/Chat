@@ -1,4 +1,4 @@
-package database.handlers.impl;
+package database.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import com.arangodb.ArangoDatabase;
 
 import config.ConfigReader;
 import database.DatabaseConnection;
-import database.handlers.ChatHandler;
 import models.Message;
 
 public class ArangoChatHandler implements ChatHandler {

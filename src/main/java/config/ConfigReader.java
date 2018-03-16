@@ -34,7 +34,6 @@ public class ConfigReader {
 					instance = new ConfigReader();
 			}
 		}
-
 		return instance;
 	}
 
@@ -54,9 +53,9 @@ public class ConfigReader {
 	}
 
 
-	    public static Class<?> getHandlerClass(String commandName) throws ClassNotFoundException {
-	        String handlerPackageName = ChatHandler.class.getPackage().getName() + ".impl";
-	        String handlerClassPath = handlerPackageName + "." + commandNameToClass.get(commandName + ".handler");
-	        return Class.forName(handlerClassPath);
-	    }
+	public static Class<?> getHandlerClass(String commandName) throws ClassNotFoundException {
+		String handlerPackageName = ChatHandler.class.getPackage().getName() + ".impl";
+        String handlerClassPath = handlerPackageName + "." + commandNameToClass.get(commandName + ".handler");
+        return Class.forName(handlerClassPath);
+	}
 }

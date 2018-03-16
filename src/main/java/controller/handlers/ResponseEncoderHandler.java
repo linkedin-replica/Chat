@@ -30,7 +30,6 @@ public class ResponseEncoderHandler extends ChannelOutboundHandlerAdapter{
 		String body =  gson.toJson(msg);
 		// wrap msg in ByteBuf
 		ByteBuf out = Unpooled.wrappedBuffer(body.getBytes());
-
 		
 		// construct FullHttpResponse
 		FullHttpResponse response = null;
