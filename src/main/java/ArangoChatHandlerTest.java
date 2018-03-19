@@ -1,8 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.AfterClass;
@@ -11,7 +9,7 @@ import org.junit.Test;
 
 import com.arangodb.ArangoDBException;
 
-import Main.Chat;
+import Main.Main;
 import database.handlers.ArangoChatHandler;
 import database.handlers.ChatHandler;
 import models.Message;
@@ -24,7 +22,7 @@ public class ArangoChatHandlerTest {
 
 	@BeforeClass
 	public void setup() throws ClassNotFoundException, IOException, SQLException {
-		Chat.start();
+		Main.start();
 		this.dbSeed = new DatabaseSeed();
 		counter = this.dbSeed.insertMessages();
 	}
@@ -82,7 +80,7 @@ public class ArangoChatHandlerTest {
 	public static void tearDown()
 			throws ArangoDBException, FileNotFoundException, ClassNotFoundException, IOException, SQLException {
 
-		Chat.shutdown();
+		Main.shutdown();
 	}
 
 }

@@ -33,7 +33,10 @@ public class RequestProcessingHandler extends ChannelInboundHandlerAdapter{
 		 *  so no need for checking for request type (switch block) and add arguments based on this check.
 		 */
 		HashMap<String,String> args =  new HashMap<String, String>();
-		args.put("searchKey", request.getSearchKey());
+//		args.put("searchKey", request.getSearchKey());
+		
+		
+		
 		Object jsonRes = service.serve(request.getType().getCommandName(), args);
 
 		// create successful response

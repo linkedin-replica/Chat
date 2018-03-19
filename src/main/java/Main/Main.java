@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import config.ConfigReader;
 import database.DatabaseConnection;
 
-public class Chat {
+public class Main {
 
 	public static void start() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
 
@@ -27,6 +27,6 @@ public class Chat {
 
 	public static void main(String[] args)
 			throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
-		Chat.start();
+		Main.start();
 	}
 }
