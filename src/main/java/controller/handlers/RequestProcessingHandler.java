@@ -3,10 +3,11 @@ package controller.handlers;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import models.ErrorResponseModel;
 import models.Request;
 import models.SuccessResponseModel;
@@ -15,7 +16,7 @@ import services.ChatService;
 
 public class RequestProcessingHandler extends ChannelInboundHandlerAdapter{
 	private static ChatService service;
-	
+	WebSocketServerHandshaker handshaker;
 	public  RequestProcessingHandler() throws FileNotFoundException, IOException {
 		super();
 		service = new ChatService();
@@ -23,6 +24,8 @@ public class RequestProcessingHandler extends ChannelInboundHandlerAdapter{
 	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		
+		
 		// request object being decoded by RequestDecoderHandler that was registered in channel pipeline before this handler
 		Request request = (Request) msg;
 		// validate request
@@ -48,6 +51,18 @@ public class RequestProcessingHandler extends ChannelInboundHandlerAdapter{
 		ctx.writeAndFlush(response);
 	}
 	
+	
+	
+	
+	
+	   
+	   protected String getWebSocketURL(HttpRequest req) {
+	        System.out.println("Req URI : " + req.getUri());
+	        String url =  "ws://" + req.headers().get("Host") + req.getUri() ;
+	        System.out.println("Constructed URL : " + url);
+	        return url;
+	    }
+
 	/**
 	 * Validate request body. For SearchEngine the same key/value pairs are the same for all implemented functionality.
 	 * 
