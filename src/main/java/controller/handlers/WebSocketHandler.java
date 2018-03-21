@@ -13,6 +13,8 @@ public class WebSocketHandler extends ChannelInboundHandlerAdapter{
 	 @Override
 	    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		
+		 System.out.println("WebSocketHandler: " + msg.getClass());
+	
 		  if (msg instanceof WebSocketFrame) {
 	            System.out.println("Client Channel : " + ctx.channel());
 	            
@@ -36,7 +38,7 @@ public class WebSocketHandler extends ChannelInboundHandlerAdapter{
 	            } 
 	            else {
 	            	//TODO - Handle unsupported websocketframe
-	                System.out.println("Unsupported WebSocketFrame");
+	                System.out.println("Unsupported WebSocketFrame: "+ msg.getClass());
 	            }
 		  }
 		  else {

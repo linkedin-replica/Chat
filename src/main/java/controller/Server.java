@@ -16,30 +16,30 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 
 public class Server {
 	private final String IP;
 	private final int PORT;
+//	private final ChannelGroup group;
 	
 	public Server(String IP, int PORT){
 		this.IP = IP;
 		this.PORT = PORT;
 	}
 	
+//	public Server(String IP, int PORT,ChannelGroup group){
+//		this.IP = IP;
+//		this.PORT = PORT;
+//		this.group=group;
+//	}
+	
 	public void start() throws InterruptedException{
 		// Producer which is responsible for accepting connections
         EventLoopGroup bossGroup = new NioEventLoopGroup();
-		/*
-		 *  consumer which handles the traffic of the accepted connection once the boss accepts the connection.
-		 *  Boss (producer) registers the accepted connection to the worker (consumer).
-		 */
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+		EventLoopGroup workerGroup = new NioEventLoopGroup();
         
-        try{
-        	/*
-        	 *  Bootstrap a server channel.
-        	 *   ServerChannel is a Channel that accepts an incoming connection attempt and creates a child Channel after accepting request.
-        	 */
+        try {
         	ServerBootstrap server = new ServerBootstrap();
         	server.group(bossGroup, workerGroup) // setting EventLoopGroups
         			.channel(NioServerSocketChannel.class) // set channel to NIO(non-blocking IO) transport channel
@@ -48,10 +48,12 @@ public class Server {
 						@Override
 						protected void initChannel(SocketChannel channel) throws Exception {
 							channel.pipeline().addLast(new HttpRequestDecoder()); // decode request bytes to FullHttpRequest (HttpRequest, HttpRequestContent, LastHttpRequestContent).
-							channel.pipeline().addLast(new HttpResponseEncoder());	 // encode FullHttpResponse to bytes.
+							channel.pipeline().addLast(new HttpResponseEncoder()); // encode FullHttpResponse to bytes.
 							channel.pipeline().addLast(new ResponseEncoderHandler()); // encode response object model into FullHttpResponse.
-							channel.pipeline().addLast(new RequestDecoderHandler()); // decode FullHttpRequest to request model.
+							channel.pipeline().addLast(new RequestDecoderHandler("/ws")); // decode FullHttpRequest to request model.
 							channel.pipeline().addLast(new RequestProcessingHandler()); // process request object model and create response object model from results.
+							channel.pipeline().addLast(new WebSocketServerProtocolHandler("/ws"));
+//							channel.pipeline().addLast(new TextWebSocketFrameHandler(group));
 						}	
 					})
 					.option(ChannelOption.SO_BACKLOG, 128) // maximum queue length for incoming connection (a request to connect)
@@ -81,5 +83,15 @@ public class Server {
 			bossGroup.shutdownGracefully();
 		}
         
+	}
+	
+	public static void main(String [] args) {
+		try {
+			new Server("localhost", 8080).start();
+			
+		} catch (InterruptedException e) {
+			System.out.println("InterruptedException @ Server:" + e.getLocalizedMessage());
+			e.printStackTrace();
+		}
 	}
 }

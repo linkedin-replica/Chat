@@ -3,6 +3,10 @@ package controller.handlers;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import com.google.gson.JsonObject;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpRequest;
@@ -25,60 +29,31 @@ public class RequestProcessingHandler extends ChannelInboundHandlerAdapter{
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		
-		
-		// request object being decoded by RequestDecoderHandler that was registered in channel pipeline before this handler
-		Request request = (Request) msg;
-		// validate request
-		validateRequest(request);
-		
-		/*
-		 *  create arguments hashMap based on type of request. Here the same argument is used for all commands,
-		 *  so no need for checking for request type (switch block) and add arguments based on this check.
-		 */
-		HashMap<String,String> args =  new HashMap<String, String>();
-//		args.put("searchKey", request.getSearchKey());
+		// JSONObject body that was decoded by RequestDecoderHandler
+		JsonObject body = (JsonObject) msg;
+		System.out.println("Processing Handler: " + body.toString());
+	
+		//TODO - map message to commands
 		
 		
-		
-		Object jsonRes = service.serve(request.getType().getCommandName(), args);
-
 		// create successful response
-		SuccessResponseModel response = new SuccessResponseModel();
-		response.setCode(HttpResponseStatus.OK.code());
-		response.setResults(jsonRes);
-		
+		LinkedHashMap<String, Object> responseBody = new LinkedHashMap<String, Object>();
+		responseBody.put("type", HttpResponseStatus.ACCEPTED);
+		responseBody.put("code", HttpResponseStatus.ACCEPTED.code());
+		responseBody.put("message", "Changes are applied successfully and configuration files are updated");
+
 		// send response to ResponseEncoderHandler
-		ctx.writeAndFlush(response);
+		ctx.writeAndFlush(responseBody);
 	}
-	
-	
-	
-	
 	
 	   
-	   protected String getWebSocketURL(HttpRequest req) {
-	        System.out.println("Req URI : " + req.getUri());
-	        String url =  "ws://" + req.headers().get("Host") + req.getUri() ;
-	        System.out.println("Constructed URL : " + url);
-	        return url;
-	    }
-
-	/**
-	 * Validate request body. For SearchEngine the same key/value pairs are the same for all implemented functionality.
-	 * 
-	 * @param request
-	 */
-	private void validateRequest(Request request){
-		String arg;
-		if(request.getType() == null || request.getSearchKey() == null){
-			arg = (request.getType() == null) ? "type" : "searchKey";
-			throw new IllegalArgumentException(String.format("Invalid request body. %s key/value is missing", arg));
-		}
+	protected String getWebSocketURL(HttpRequest req) {
+		System.out.println("Req URI : " + req.getUri());
+		String url =  "ws://" + req.headers().get("Host") + req.getUri() ;
+		System.out.println("Constructed URL : " + url);
+		return url;
 	}
-
-	/**
-	 * Overriding exceptionCaught()  to react to any Throwable.
-	 */
+	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {

@@ -28,6 +28,7 @@ public class ResponseEncoderHandler extends ChannelOutboundHandlerAdapter{
 		// convert msg (response model from RequestProcessingHandler)
 		Gson gson = new Gson();
 		String body =  gson.toJson(msg);
+		System.out.println(body);
 		// wrap msg in ByteBuf
 		ByteBuf out = Unpooled.wrappedBuffer(body.getBytes());
 		
@@ -36,11 +37,11 @@ public class ResponseEncoderHandler extends ChannelOutboundHandlerAdapter{
 		if(msg instanceof SuccessResponseModel)
 			response = new DefaultFullHttpResponse(HTTP_1_1, HttpResponseStatus.OK,
 					Unpooled.copiedBuffer(out.toString(CharsetUtil.UTF_8), CharsetUtil.UTF_8));
-		
+		System.out.println(response.toString());
 		if(msg instanceof ErrorResponseModel)
 			response = new DefaultFullHttpResponse(HTTP_1_1, HttpResponseStatus.BAD_REQUEST,
 					Unpooled.copiedBuffer(out.toString(CharsetUtil.UTF_8), CharsetUtil.UTF_8));
-		 
+		System.out.println(response.toString());
 		// set headers
 	    response.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
 	    
