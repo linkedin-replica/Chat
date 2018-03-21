@@ -14,15 +14,18 @@ public class WebSocketHandler extends ChannelInboundHandlerAdapter{
 	    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		
 		 System.out.println("WebSocketHandler: " + msg.getClass());
-	
-		  if (msg instanceof WebSocketFrame) {
+		/* Object msgObject =(Object) msg;
+		 TextWebSocketFrame frame = (TextWebSocketFrame) msgObject;*/
+		 
+		  if (msg instanceof WebSocketFrame || msg instanceof String) { //TODO - testing
 	            System.out.println("Client Channel : " + ctx.channel());
 	            
 	            if (msg instanceof BinaryWebSocketFrame) {
 	                System.out.println( ((BinaryWebSocketFrame) msg).content() );
 	            } 
-	            else if (msg instanceof TextWebSocketFrame) {
-	                ctx.channel().write(new TextWebSocketFrame("Message recieved : " + ((TextWebSocketFrame) msg).text()));
+	            else if (msg instanceof TextWebSocketFrame || msg instanceof String) { //TODO - testing with string
+//	                ctx.channel().write(new TextWebSocketFrame("Message recieved : " + ((TextWebSocketFrame) msg).text()));
+	            	ctx.channel().write(new TextWebSocketFrame("Message recieved : " + msg));
 	                System.out.println(((TextWebSocketFrame) msg).text());
 	            } 
 	            else if (msg instanceof PingWebSocketFrame) {

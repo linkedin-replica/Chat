@@ -12,6 +12,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 
 public class Client {
@@ -36,14 +37,16 @@ public class Client {
 			
 			Channel channel = bootstrap.connect(host, port).sync().channel();
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	URL obj = new URL("http://localhost:8080/ws");
-				HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			URL obj = new URL("http://localhost:8080/ws");
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 			//	if(in.readLine() != null) {
 				
 				con.setRequestMethod("POST");
 				con.setDoOutput(true);
-				con.setRequestProperty("msg", in.readLine());
+				String msg = in.readLine();
+				
+				con.setRequestProperty("msg", msg);
 				con.setRequestProperty("Connection", "Upgrade");
 				con.setRequestProperty("Upgrade", "websocket");
 				con.setRequestProperty("Content-Type", "text/plain");
@@ -52,7 +55,7 @@ public class Client {
 	
 				// success
 				int responseCode = con.getResponseCode();
-				System.out.println("GET Response Code :: " + responseCode);
+				System.out.println("POST Response Code :: " + responseCode);
 				
 				if (responseCode == HttpURLConnection.HTTP_OK) { 
 					BufferedReader in11 = new BufferedReader(new InputStreamReader(
@@ -69,7 +72,7 @@ public class Client {
 					//System.out.println(response.toString());
 				} 
 				else {
-					System.out.println("GET request error");
+					System.out.println("POST request error");
 				}
 			//}
 			

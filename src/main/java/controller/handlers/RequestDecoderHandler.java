@@ -23,8 +23,9 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.util.CharsetUtil;
 
 public class RequestDecoderHandler extends ChannelInboundHandlerAdapter{
-	StringBuilder builder = new StringBuilder();
-	WebSocketServerHandshaker handshaker;
+	
+	private StringBuilder builder = new StringBuilder();
+	private WebSocketServerHandshaker handshaker;
 	private final String wsUri;
 	
 	public RequestDecoderHandler(String wsUri) {
@@ -33,22 +34,25 @@ public class RequestDecoderHandler extends ChannelInboundHandlerAdapter{
 	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-System.out.println(msg.getClass());
+		
 		if ((msg instanceof HttpRequest)) {
-
-						HttpRequest httpRequest = (HttpRequest) msg;
-						HttpHeaders headers = httpRequest.headers();
-						
-						System.out.println("Server recieved an HTTP Request: " + msg.getClass());
-						System.out.println("Headers: " + headers);
-			System.out.println(((HttpRequest) msg).headers().get("msg"));
+			
+			HttpRequest httpRequest = (HttpRequest) msg;
+			HttpHeaders headers = httpRequest.headers();
+			
+			System.out.println("Server recieved an HTTP Request: " + msg.getClass().getSimpleName());
+			System.out.println("Headers: " + headers);
+			System.out.println("Message: " + ((HttpRequest) msg).headers().get("msg") + ", Type: " + ((HttpRequest) msg).headers().get("msg").getClass().getSimpleName());
 
 			if(wsUri.equalsIgnoreCase( httpRequest.getUri())) {
 				
 				ctx.pipeline().replace(RequestProcessingHandler.class, "websocketHandler", new WebSocketHandler());
 				handleHandshake(ctx, httpRequest);
-				WebSocketFrame frame = (WebSocketFrame) msg;
-				ctx.fireChannelRead(frame);
+				/*Object msgObject = (Object)httpRequest.headers().get("msg");
+				WebSocketFrame frame = (WebSocketFrame) msgObject;*/
+				// WebSocketFrame frame = new WebSocketFrame(); 
+				System.out.println(httpRequest.headers().get("msg"));
+				ctx.fireChannelRead(httpRequest.headers().get("msg"));
 			}
 		}
 		

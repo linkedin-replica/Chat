@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import controller.handlers.RequestDecoderHandler;
 import controller.handlers.RequestProcessingHandler;
 import controller.handlers.ResponseEncoderHandler;
+import controller.handlers.TextWebSocketFrameHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.bootstrap.ServerBootstrap;
@@ -13,26 +14,29 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.util.concurrent.ImmediateEventExecutor;
 
 public class Server {
 	private final String IP;
 	private final int PORT;
-//	private final ChannelGroup group;
+	private final ChannelGroup group;
 	
-	public Server(String IP, int PORT){
+/*	public Server(String IP, int PORT){
 		this.IP = IP;
 		this.PORT = PORT;
-	}
+	}*/
 	
-//	public Server(String IP, int PORT,ChannelGroup group){
-//		this.IP = IP;
-//		this.PORT = PORT;
-//		this.group=group;
-//	}
+	public Server(String IP, int PORT,ChannelGroup group){
+		this.IP = IP;
+		this.PORT = PORT;
+		this.group=group;
+	}
 	
 	public void start() throws InterruptedException{
 		// Producer which is responsible for accepting connections
@@ -53,7 +57,7 @@ public class Server {
 							channel.pipeline().addLast(new RequestDecoderHandler("/ws")); // decode FullHttpRequest to request model.
 							channel.pipeline().addLast(new RequestProcessingHandler()); // process request object model and create response object model from results.
 							channel.pipeline().addLast(new WebSocketServerProtocolHandler("/ws"));
-//							channel.pipeline().addLast(new TextWebSocketFrameHandler(group));
+							channel.pipeline().addLast(new TextWebSocketFrameHandler(group));
 						}	
 					})
 					.option(ChannelOption.SO_BACKLOG, 128) // maximum queue length for incoming connection (a request to connect)
@@ -87,7 +91,7 @@ public class Server {
 	
 	public static void main(String [] args) {
 		try {
-			new Server("localhost", 8080).start();
+			new Server("localhost", 8080, new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE)).start();
 			
 		} catch (InterruptedException e) {
 			System.out.println("InterruptedException @ Server:" + e.getLocalizedMessage());
