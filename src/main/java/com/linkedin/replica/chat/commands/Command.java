@@ -6,14 +6,14 @@ import com.linkedin.replica.chat.database.handlers.DatabaseHandler;
 
 public abstract class Command {
 
-	public HashMap<String, String> args;
+	public HashMap<String, Object> args;
 	public DatabaseHandler dbHandler;
 
-	public Command(HashMap<String, String> args) {
+	public Command(HashMap<String, Object> args) {
 		this.args = args;
 	}
 
-	public abstract String execute() throws Exception;
+	public abstract String execute();
 	
 	public void setDbHandler(DatabaseHandler dbHandler) {
         this.dbHandler = dbHandler;
