@@ -2,42 +2,47 @@ package com.linkedin.replica.chat.database;
 
 import com.arangodb.ArangoDB;
 
-import com.linkedin.replica.chat.config.ConfigReader;
+import com.linkedin.replica.chat.config.Configuration;
 
 import java.io.IOException;
 
 public class DatabaseConnection {
-	private static ArangoDB arangoDriver;
-	private ConfigReader config;
+	private ArangoDB arangoDriver;
+	private Configuration config;
+	private static DatabaseConnection instance;
 
-	private volatile static DatabaseConnection dbConnection;
 
-	private DatabaseConnection() throws IOException {
-		config = ConfigReader.getInstance();
+
+	private DatabaseConnection() throws IOException{
+		config = Configuration.getInstance();
 		initializeArangoDB();
 	}
 
-	private void initializeArangoDB() {
-		arangoDriver = new ArangoDB.Builder().user(config.getArangoConfig("arangodb.user"))
-				.password(config.getArangoConfig("arangodb.password")).build();
+
+	/**
+	 * @return A singleton database instance
+	 */
+	public static DatabaseConnection getInstance() {
+		return instance;
 	}
 
-	public static DatabaseConnection getDBConnection() throws IOException {
-		if (dbConnection == null) {
-			synchronized (DatabaseConnection.class) {
-				if (dbConnection == null)
-					dbConnection = new DatabaseConnection();
-			}
-		}
-		return dbConnection;
+	public static void init() throws IOException {
+		instance = new DatabaseConnection();
+	}
+
+	private void initializeArangoDB() {
+		arangoDriver = new ArangoDB.Builder()
+				.user(config.getArangoConfigProp("arangodb.user"))
+				.password(config.getArangoConfigProp("arangodb.password"))
+				.build();
+	}
+
+	public void closeConnections() {
+		arangoDriver.shutdown();
 	}
 
 	public ArangoDB getArangoDriver() {
 		return arangoDriver;
 	}
 
-	public static void closeConnections() {
-		// TODO Auto-generated method stub
-		arangoDriver.shutdown();
-	}
 }
