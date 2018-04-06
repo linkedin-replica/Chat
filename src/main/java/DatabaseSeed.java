@@ -11,14 +11,14 @@ import java.util.Properties;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
 import com.arangodb.entity.BaseDocument;
-import database.*;
+import com.linkedin.replica.chat.database.*;
 
 public class DatabaseSeed {
 	private static Properties properties;
 
 	public DatabaseSeed() throws FileNotFoundException, IOException {
 		properties = new Properties();
-		properties.load(new FileInputStream("src/main/resources/arango_names"));
+		properties.load(new FileInputStream("src/main/resources/arango.config"));
 	}
 
 	public int insertMessages() throws IOException, ClassNotFoundException, SQLException {
@@ -32,7 +32,7 @@ public class DatabaseSeed {
 			arangoDB.db(dbName).createCollection(collectionName);
 
 		} catch (ArangoDBException ex) {
-			// check if an exception was raised as a result of the database not being
+			// check if an exception was raised as a result of the com.linkedin.replica.chat.database not being
 			// created
 			if (ex.getErrorNum() == 1228) {
 				arangoDB.createDatabase(dbName);

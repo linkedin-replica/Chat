@@ -1,8 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.AfterClass;
@@ -11,22 +9,22 @@ import org.junit.Test;
 
 import com.arangodb.ArangoDBException;
 
-import Main.Chat;
-import database.handlers.ArangoChatHandler;
-import database.handlers.ChatHandler;
-import models.Message;
+import com.linkedin.replica.chat.Main.Chat;
+import com.linkedin.replica.chat.database.handlers.ArangoChatHandler;
+import com.linkedin.replica.chat.database.handlers.ChatHandler;
+import com.linkedin.replica.chat.models.Message;
 
 import static org.junit.Assert.assertEquals;
 
 public class ArangoChatHandlerTest {
-	private DatabaseSeed dbSeed;
+	private static DatabaseSeed dbSeed;
 	static int counter = 0;
 
 	@BeforeClass
-	public void setup() throws ClassNotFoundException, IOException, SQLException {
+	public static void setup() throws ClassNotFoundException, IOException, SQLException {
 		Chat.start();
-		this.dbSeed = new DatabaseSeed();
-		counter = this.dbSeed.insertMessages();
+		dbSeed = new DatabaseSeed();
+		counter = dbSeed.insertMessages();
 	}
 
 	@Test
@@ -47,12 +45,13 @@ public class ArangoChatHandlerTest {
 	@Test
 	public void testInsertMessage() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
 
-		Message msg = new Message(counter + "", "1", "2", new Date(), false, "jojojojoojjojojojojo");
+		Message msg = new Message();
+//		counter + "", "1", "2", new Date(), false, "jojojojoojjojojojojo");
 		ChatHandler dbHandler = new ArangoChatHandler();
 		dbHandler.insertMessage(msg);
 		Message res = dbHandler.getLatestMessage();
 		boolean check = false;
-		if (msg.getMessageId().equals(res.getMessageId()))
+		if (msg.getId().equals(res.getId()))
 			check = true;
 
 		assertEquals("Not inserted", true, check);
