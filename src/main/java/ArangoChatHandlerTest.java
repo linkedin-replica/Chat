@@ -10,11 +10,8 @@ import com.linkedin.replica.chat.config.Configuration;
 import com.linkedin.replica.chat.database.DatabaseConnection;
 import org.junit.*;
 
-import com.arangodb.ArangoDBException;
-
-import com.linkedin.replica.chat.Main.Chat;
+import com.linkedin.replica.chat.main.Chat;
 import com.linkedin.replica.chat.database.handlers.impl.ArangoChatHandler;
-import com.linkedin.replica.chat.database.handlers.ChatHandler;
 import com.linkedin.replica.chat.models.Message;
 
 import static org.junit.Assert.assertEquals;
