@@ -12,8 +12,7 @@ public class DatabaseConnection {
 	private static DatabaseConnection instance;
 
 
-
-	private DatabaseConnection() throws IOException{
+	private DatabaseConnection(){
 		config = Configuration.getInstance();
 		initializeArangoDB();
 	}

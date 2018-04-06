@@ -24,7 +24,6 @@ public class Message {
 	private String sender;
 	private String receiver;
 	private Date timestamp;
-	private boolean read;
 	private String msg;
 
 	public Message() {
@@ -68,14 +67,6 @@ public class Message {
 
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
-	}
-
-	public boolean isRead() {
-		return read;
-	}
-
-	public void setRead(boolean read) {
-		this.read = read;
 	}
 
 }

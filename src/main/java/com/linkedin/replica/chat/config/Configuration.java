@@ -1,5 +1,8 @@
 package com.linkedin.replica.chat.config;
 
+import com.linkedin.replica.chat.commands.Command;
+import com.linkedin.replica.chat.database.handlers.ChatHandler;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,9 +10,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
-
-import com.linkedin.replica.chat.commands.Command;
-import com.linkedin.replica.chat.database.handlers.ChatHandler;
 
 public class Configuration {
 
