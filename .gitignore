@@ -23,3 +23,11 @@ hs_err_pid*
 
 .idea/
 /target/
+
+# Eclipse
+.classpath
+.project
+.settings/
+.bin/
+
+chat.iml
