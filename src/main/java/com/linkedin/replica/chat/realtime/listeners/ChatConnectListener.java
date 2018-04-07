@@ -43,7 +43,7 @@ public class ChatConnectListener implements ConnectListener{
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("type", "CONNECT");
 		jsonObject.addProperty("userId", userId);
-		jsonObject.addProperty("serverQueueName", Configuration.getInstance().getAppConfigProp("rabbitmq.queue.broadcast"));
+		jsonObject.addProperty("serverQueueName", Configuration.getInstance().getAppConfigProp("rabbitmq.queue.inter"));
         sendChannel.basicPublish(EXCHANGE_NAME, "", null, jsonObject.toString().getBytes());
 	}
 }
