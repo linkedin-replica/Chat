@@ -7,11 +7,9 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.google.gson.JsonObject;
 import com.linkedin.replica.chat.config.Configuration;
-import com.linkedin.replica.chat.messaging.BroadcastChannels;
+import com.linkedin.replica.chat.messaging.RabbitMQChannels;
 import com.linkedin.replica.chat.realtime.RealtimeDataHandler;
 import com.rabbitmq.client.Channel;
-
-import java.io.IOException;
 
 public class ChatDisconnectListener implements DisconnectListener{
     private RealtimeDataHandler realtimeDataHandler = RealtimeDataHandler.getInstance();
@@ -30,7 +28,7 @@ public class ChatDisconnectListener implements DisconnectListener{
     }
     
 	private void broadcastUnregisterUser(String userId) throws IOException, TimeoutException{
-		Channel sendChannel = BroadcastChannels.getInstance().sendBroadcastChannel();
+		Channel sendChannel = RabbitMQChannels.getInstance().sendBroadcastChannel();
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("type", "DISCONNECT");
 		jsonObject.addProperty("userId", userId);

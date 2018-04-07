@@ -7,15 +7,13 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.google.gson.JsonObject;
 import com.linkedin.replica.chat.config.Configuration;
-import com.linkedin.replica.chat.messaging.BroadcastChannels;
+import com.linkedin.replica.chat.messaging.RabbitMQChannels;
 import com.linkedin.replica.chat.realtime.RealtimeDataHandler;
 import com.linkedin.replica.chat.utils.JwtUtilities;
 import com.rabbitmq.client.Channel;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-
-import java.io.IOException;
 
 public class ChatConnectListener implements ConnectListener{
     private RealtimeDataHandler realtimeDataHandler = RealtimeDataHandler.getInstance();
@@ -30,7 +28,6 @@ public class ChatConnectListener implements ConnectListener{
             return;
 
         String senderId = claims.getBody().get("senderId").toString();
-        System.out.println("User " + senderId + " connected successfully");
 
         try {
 			realtimeDataHandler.connectUser(senderId, socketIOClient.getSessionId().toString());
@@ -41,7 +38,7 @@ public class ChatConnectListener implements ConnectListener{
     }
     
 	private void broadcastRegisterNewUser(String userId) throws IOException, TimeoutException{
-		Channel sendChannel = BroadcastChannels.getInstance().sendBroadcastChannel();
+		Channel sendChannel = RabbitMQChannels.getInstance().sendBroadcastChannel();
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("type", "CONNECT");
 		jsonObject.addProperty("userId", userId);

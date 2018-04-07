@@ -1,6 +1,5 @@
 package com.linkedin.replica.chat.messaging;
 
-import com.corundumstudio.socketio.SocketIOServer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.linkedin.replica.chat.config.Configuration;
@@ -14,25 +13,13 @@ public class InterChatServersMessageHandler {
     private final Configuration configuration = Configuration.getInstance();
 
     private final String QUEUE_NAME = configuration.getAppConfigProp("rabbitmq.queue.inter");
-    private final String RABBIT_MQ_IP = configuration.getAppConfigProp("rabbitmq.ip");
-    private final String RABBIT_MQ_USERNAME = configuration.getAppConfigProp("rabbitmq.username");
-    private final String RABBIT_MQ_PASSWORD = configuration.getAppConfigProp("rabbitmq.password");
-
-    private ConnectionFactory factory;
     private Channel receiveChannel;
     private Channel sendChannel;
-    private Connection connection;
 
     public InterChatServersMessageHandler() throws IOException, TimeoutException {
-        factory = new ConnectionFactory();
-        factory.setUsername(RABBIT_MQ_USERNAME);
-        factory.setPassword(RABBIT_MQ_PASSWORD);
-        factory.setHost(RABBIT_MQ_IP);
-        connection = factory.newConnection();
-
-        // create channels
-        sendChannel = connection.createChannel();
-        receiveChannel = connection.createChannel();
+        // get channels
+        sendChannel = RabbitMQChannels.getInstance().sendInterChannel();
+        receiveChannel = RabbitMQChannels.getInstance().receiveInterChannel();
         initConsumer();
     }
 
@@ -45,7 +32,6 @@ public class InterChatServersMessageHandler {
                                        AMQP.BasicProperties properties, byte[] body)
                     throws IOException {
                 JsonObject object = new JsonParser().parse(new String(body)).getAsJsonObject();
-                System.out.println("Handle deliver of entra " + object);
                 String senderId = object.get("senderId").getAsString();
                 String receiverId = object.get("receiverId").getAsString();
                 String message = object.get("message").getAsString();
@@ -64,7 +50,6 @@ public class InterChatServersMessageHandler {
         object.addProperty("receiverId", receiverId);
         object.addProperty("message", message);
 
-        System.out.println("Publishing to " + queueName);
         sendChannel.basicPublish("", queueName, null, object.toString().getBytes());
     }
 

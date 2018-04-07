@@ -1,7 +1,6 @@
 package com.linkedin.replica.chat.messaging;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import com.linkedin.replica.chat.config.Configuration;
@@ -9,35 +8,40 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class BroadcastChannels {
+public class RabbitMQChannels {
 	private Connection connection;
 	private Channel sendBroadcastChannel;
 	private Channel receiveBroadcastChannel;
-	
-	private static BroadcastChannels instance;
+	private Channel sendInterChannel;
+	private Channel receiveInterChannel;
+
+	private static RabbitMQChannels instance;
     private final String EXCHANGE_NAME = Configuration.getInstance().getAppConfigProp("rabbitmq.queue.broadcast");
 
-    private BroadcastChannels() throws IOException, TimeoutException{
+    private RabbitMQChannels() throws IOException, TimeoutException{
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setUsername(Configuration.getInstance().getAppConfigProp("rabbitmq.username"));
 		factory.setPassword(Configuration.getInstance().getAppConfigProp("rabbitmq.password"));
 		factory.setHost(Configuration.getInstance().getAppConfigProp("rabbitmq.ip"));
 		
-		Connection connection = factory.newConnection();
+		connection = factory.newConnection();
 		
 		sendBroadcastChannel = connection.createChannel();
 		receiveBroadcastChannel = connection.createChannel();
+
+		sendInterChannel = connection.createChannel();
+		receiveInterChannel = connection.createChannel();
 		
         // declare the queue if it does not exist
 		sendBroadcastChannel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 		receiveBroadcastChannel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 	}
 	
-	public static BroadcastChannels getInstance() throws IOException, TimeoutException{
+	public static RabbitMQChannels getInstance() throws IOException, TimeoutException{
 		if(instance == null){
-			synchronized (BroadcastChannels.class) {
+			synchronized (RabbitMQChannels.class) {
 				if(instance == null)
-					instance = new BroadcastChannels();
+					instance = new RabbitMQChannels();
 			}
 		}
 		return instance;
@@ -49,6 +53,14 @@ public class BroadcastChannels {
 
 	public Channel receiveBroadcastChannel() {
 		return receiveBroadcastChannel;
+	}
+
+	public Channel sendInterChannel() {
+		return sendInterChannel;
+	}
+
+	public Channel receiveInterChannel() {
+		return receiveInterChannel;
 	}
 
 	public void closeConnections() throws IOException, TimeoutException {

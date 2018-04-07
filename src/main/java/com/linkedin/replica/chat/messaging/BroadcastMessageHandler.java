@@ -16,13 +16,11 @@ import com.rabbitmq.client.Envelope;
 public class BroadcastMessageHandler {
 	private final Configuration configuration = Configuration.getInstance();
     private final String EXCHANGE_NAME = configuration.getAppConfigProp("rabbitmq.queue.broadcast");
-
-
     private Channel receiveChannel;
 
     public BroadcastMessageHandler() throws IOException, TimeoutException{        
         //get receive channel
-        receiveChannel = BroadcastChannels.getInstance().receiveBroadcastChannel();
+        receiveChannel = RabbitMQChannels.getInstance().receiveBroadcastChannel();
         initConsumer();
     }
 	
@@ -45,20 +43,17 @@ public class BroadcastMessageHandler {
 	}
 
     public void closeConnection() throws IOException, TimeoutException {
-    	BroadcastChannels.getInstance().closeConnections();
+    	RabbitMQChannels.getInstance().closeConnections();
     }
 	
 	private void processMessage(JsonObject jsonObject){
 		String type = jsonObject.get("type").getAsString();
 		String userId = jsonObject.get("userId").getAsString();
-        System.out.println("Type " + type);
+
         RealtimeDataHandler realtimeDataHandler = RealtimeDataHandler.getInstance();
         if(type.equals("CONNECT")){
-            System.out.println("INSIDE CONDITION CONNECT");
             String serverQueueName = jsonObject.get("serverQueueName").getAsString();
-            System.out.println("INSIDE CONNECT 2");
             realtimeDataHandler.registerExternalUser(userId, serverQueueName);
-            System.out.println("Received connection request for user " + userId);
             return;
 		}
 		
