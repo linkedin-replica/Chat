@@ -1,6 +1,5 @@
 package com.linkedin.replica.chat.commands.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +17,6 @@ public class InsertMessageCommand extends Command {
 	public String execute(){
 
 		ChatHandler chatHandler = (ChatHandler) this.dbHandler;
-		validateArgs(new String[]{"messages"});
 
 		chatHandler.insertMessages((ArrayList<Message>) args.get("messages"));
 

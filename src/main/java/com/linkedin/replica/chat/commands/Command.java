@@ -3,6 +3,7 @@ package com.linkedin.replica.chat.commands;
 import java.util.HashMap;
 
 import com.linkedin.replica.chat.database.handlers.DatabaseHandler;
+import com.linkedin.replica.chat.exceptions.BadRequestException;
 
 public abstract class Command {
 
@@ -23,7 +24,7 @@ public abstract class Command {
         for(String arg: requiredArgs)
             if(!args.containsKey(arg)) {
                 String exceptionMsg = String.format("Cannot execute command. %s argument is missing", arg);
-                throw new IllegalArgumentException(exceptionMsg);
+                throw new BadRequestException(exceptionMsg);
             }
     }
 }
