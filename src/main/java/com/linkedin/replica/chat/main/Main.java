@@ -28,8 +28,6 @@ public class Main {
 		DatabaseConnection.init();
 
 		JwtUtilities.initKey();
-
-		RealtimeDataHandler.init();
 		
 		new Thread(() -> {
 			String chatIp = Configuration.getInstance().getAppConfigProp("chat.ip");
@@ -44,7 +42,7 @@ public class Main {
 
 		new Thread(() -> {
 			try {
-				BroadcastMessageHandler handler = new BroadcastMessageHandler();
+				new BroadcastMessageHandler();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -57,7 +55,7 @@ public class Main {
 		dbInstance.closeConnections();
 	}
 
-	public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InterruptedException {
+	public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InterruptedException, TimeoutException {
 		start();
 	}
 }

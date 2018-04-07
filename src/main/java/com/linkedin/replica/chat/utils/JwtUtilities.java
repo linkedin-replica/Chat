@@ -20,8 +20,8 @@ public class JwtUtilities {
     }
 
     public static void initKey() throws NoSuchAlgorithmException {
-        secretKey = generateSecretKey();
-//        secretKey = "hatem".getBytes();
+//        secretKey = generateSecretKey();
+        secretKey = "hatem".getBytes();
     }
 
     /**

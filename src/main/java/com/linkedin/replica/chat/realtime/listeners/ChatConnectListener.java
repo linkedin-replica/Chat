@@ -15,6 +15,8 @@ import com.rabbitmq.client.Channel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
+import java.io.IOException;
+
 public class ChatConnectListener implements ConnectListener{
     private RealtimeDataHandler realtimeDataHandler = RealtimeDataHandler.getInstance();
     private final String EXCHANGE_NAME = Configuration.getInstance().getAppConfigProp("rabbitmq.queue.broadcast");

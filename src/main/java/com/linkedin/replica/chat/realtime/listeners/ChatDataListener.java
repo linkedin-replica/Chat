@@ -31,8 +31,7 @@ public class ChatDataListener implements DataListener<ChatObject> {
 
         String senderId = claims.getBody().get("senderId").toString();
         String receiverId = claims.getBody().get("receiverId").toString();
-        System.out.printf("%s --> %s: %s\n", senderId, receiverId, data.getMessage());
 
-        realtimeDataHandler.sendMessage(server, senderId, receiverId, data);
+        realtimeDataHandler.sendMessage(senderId, receiverId, data.getMessage());
     }
 }

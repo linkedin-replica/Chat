@@ -11,6 +11,8 @@ import com.linkedin.replica.chat.messaging.BroadcastChannels;
 import com.linkedin.replica.chat.realtime.RealtimeDataHandler;
 import com.rabbitmq.client.Channel;
 
+import java.io.IOException;
+
 public class ChatDisconnectListener implements DisconnectListener{
     private RealtimeDataHandler realtimeDataHandler = RealtimeDataHandler.getInstance();
     private final String EXCHANGE_NAME = Configuration.getInstance().getAppConfigProp("rabbitmq.queue.broadcast");

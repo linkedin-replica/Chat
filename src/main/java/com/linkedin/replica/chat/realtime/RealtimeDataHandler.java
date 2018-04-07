@@ -2,6 +2,7 @@ package com.linkedin.replica.chat.realtime;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.linkedin.replica.chat.messaging.BroadcastMessageHandler;
+import com.linkedin.replica.chat.messaging.InterChatServersMessageHandler;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -11,16 +12,21 @@ import java.util.concurrent.TimeoutException;
 public class RealtimeDataHandler {
     private ConcurrentHashMap<String, String> idToSessionMap, sessionToIdMap;
     private ConcurrentHashMap<String, String> externalOnlineUsersMap;
+    private InterChatServersMessageHandler interChatServersMessageHandler;
+    private SocketIOServer server;
     private static RealtimeDataHandler instance;
     
-    private RealtimeDataHandler() throws IOException, TimeoutException {
-        idToSessionMap = new ConcurrentHashMap<String, String>();
-        sessionToIdMap = new ConcurrentHashMap<String, String>();
-        externalOnlineUsersMap = new ConcurrentHashMap<String, String>();
+    private RealtimeDataHandler(SocketIOServer server) throws IOException, TimeoutException {
+        this.server = server;
+        idToSessionMap = new ConcurrentHashMap<>();
+        sessionToIdMap = new ConcurrentHashMap<>();
+        externalOnlineUsersMap = new ConcurrentHashMap<>();
+        interChatServersMessageHandler = new InterChatServersMessageHandler();
     }
 
-    public static void init() throws IOException, TimeoutException {
-        instance = new RealtimeDataHandler();
+
+    public static void init(SocketIOServer server) throws IOException, TimeoutException {
+        instance = new RealtimeDataHandler(server);
     }
 
     public static RealtimeDataHandler getInstance() {
@@ -28,7 +34,8 @@ public class RealtimeDataHandler {
     }
 
     public void registerExternalUser(String userId, String serverQueueName){
-    	externalOnlineUsersMap.put(userId, serverQueueName);
+        System.out.println("INSIDE REGISTRATION");
+        externalOnlineUsersMap.put(userId, serverQueueName);
     }
     
     public void unRegisterExternalUser(String userId){
@@ -60,15 +67,20 @@ public class RealtimeDataHandler {
     	return sessionToIdMap.get(sessionId);
     }
 
-    public void sendMessage(SocketIOServer server, String senderId, String receiverId, ChatObject data) {
+    public void sendMessage(String senderId, String receiverId, String message) throws IOException {
+        System.out.println(externalOnlineUsersMap);
         if(isUserConnectedHere(receiverId)) {
             server.getClient(UUID.fromString(idToSessionMap.get(receiverId)))
-                    .sendEvent("chatevent", data.getMessage());
+                    .sendEvent("chatevent", message);
         }
-        else
-            System.out.println("User " + receiverId + " is offline.");
-        // TODO check other servers
-
+        else if(externalOnlineUsersMap.containsKey(receiverId)) {
+            System.out.println("Sending message to a user on another server");
+            interChatServersMessageHandler.sendMessage(senderId, receiverId, message, externalOnlineUsersMap.get(receiverId));
+        }
+        else {
+            System.out.println("User is offline");
+            // user is offline; do nothing
+        }
         // TODO append to buffer
     }
 }

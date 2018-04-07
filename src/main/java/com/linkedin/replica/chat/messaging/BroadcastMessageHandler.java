@@ -15,19 +15,18 @@ import com.rabbitmq.client.Envelope;
 
 public class BroadcastMessageHandler {
 	private final Configuration configuration = Configuration.getInstance();
-	private final RealtimeDataHandler realtimeDataHandler = RealtimeDataHandler.getInstance();
     private final String EXCHANGE_NAME = configuration.getAppConfigProp("rabbitmq.queue.broadcast");
 
 
     private Channel receiveChannel;
-    
+
     public BroadcastMessageHandler() throws IOException, TimeoutException{        
         //get receive channel
         receiveChannel = BroadcastChannels.getInstance().receiveBroadcastChannel();
         initConsumer();
     }
 	
-	public void initConsumer() throws IOException{
+	private void initConsumer() throws IOException{
 		String bindingQueue = receiveChannel.queueDeclare().getQueue();
 		receiveChannel.queueBind(bindingQueue, EXCHANGE_NAME, "");
 		
@@ -44,7 +43,7 @@ public class BroadcastMessageHandler {
         // attach the consumer
         receiveChannel.basicConsume(bindingQueue, true, consumer);
 	}
-	
+
     public void closeConnection() throws IOException, TimeoutException {
     	BroadcastChannels.getInstance().closeConnections();
     }
@@ -52,11 +51,15 @@ public class BroadcastMessageHandler {
 	private void processMessage(JsonObject jsonObject){
 		String type = jsonObject.get("type").getAsString();
 		String userId = jsonObject.get("userId").getAsString();
-		
-		if(type.equals("CONNECT")){
-			String serverQueueName = jsonObject.get("serverQueueName").getAsString();
-			realtimeDataHandler.registerExternalUser(userId, serverQueueName);
-			return;
+        System.out.println("Type " + type);
+        RealtimeDataHandler realtimeDataHandler = RealtimeDataHandler.getInstance();
+        if(type.equals("CONNECT")){
+            System.out.println("INSIDE CONDITION CONNECT");
+            String serverQueueName = jsonObject.get("serverQueueName").getAsString();
+            System.out.println("INSIDE CONNECT 2");
+            realtimeDataHandler.registerExternalUser(userId, serverQueueName);
+            System.out.println("Received connection request for user " + userId);
+            return;
 		}
 		
 		if(type.equals("DISCONNECT")){

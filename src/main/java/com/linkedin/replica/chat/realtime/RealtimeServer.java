@@ -7,17 +7,22 @@ import com.linkedin.replica.chat.realtime.listeners.ChatDataListener;
 import com.linkedin.replica.chat.realtime.listeners.ChatDisconnectListener;
 import io.netty.channel.ChannelFuture;
 
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
 
 public class RealtimeServer {
     private SocketIOServer server;
 
-    public RealtimeServer(String ip, int port) throws InterruptedException {
+    public RealtimeServer(String ip, int port) throws InterruptedException, IOException, TimeoutException {
         // set connections config
         final Configuration config = new Configuration();
         config.setHostname(ip);
         config.setPort(port);
 
         server = new SocketIOServer(config);
+        RealtimeDataHandler.init(server);
+
         addListeners();
 
         try {
