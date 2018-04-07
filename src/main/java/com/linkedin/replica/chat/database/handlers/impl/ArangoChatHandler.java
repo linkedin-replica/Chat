@@ -39,25 +39,32 @@ public class ArangoChatHandler implements ChatHandler {
 		return collection.getDocument(messageId, Message.class);
 	}
 
-	public List<Message> getChatHistory(String userId1, String userId2) {
-
-		String query = "For m in " + collectionName
-				+ " FILTER (m.sender == @userId1 && m.receiver == @userId2)|| (m.sender == @userId2 && m.receiver == @userId1)  RETURN m";
-		Map<String, Object> bindVars = new HashMap<String, Object>();
-		bindVars.put("userId1", userId1);
-		bindVars.put("userId2", userId2);
-
-		// Process query
-		ArangoCursor<Message> cursor = dbInstance.query(query, bindVars, null, Message.class);
-		ArrayList<Message> result = new ArrayList<Message>();
-
-		for (; cursor.hasNext();)
-			result.add(cursor.next());
-		return result;
-	}
-
-
-	public List<Message> getChatHistory(String userId1, String userId2, int offset, int limit) {
+	public List<Message> getChatHistory(String userId1, String userId2, String strOffset, String strLimit) {
+		int offset, limit;
+		
+		// validate and set offset
+		if(strOffset  == null || strOffset.trim().isEmpty())
+			offset = Integer.parseInt(config.getAppConfigProp("history.offset.default"));
+		else{
+			try{
+				offset = Integer.parseInt(strOffset);
+			}catch(NumberFormatException ex){
+				offset = Integer.parseInt(config.getAppConfigProp("history.offset.default"));
+			}
+		}
+		
+		// validate and set limit
+		if(strLimit  == null || strLimit.trim().isEmpty())
+			limit = Integer.parseInt(config.getAppConfigProp("history.limit.default"));
+		else{
+			try{
+				limit = Integer.parseInt(strLimit);
+			}catch(NumberFormatException ex){
+				limit = Integer.parseInt(config.getAppConfigProp("history.limit.default"));
+			}
+		}
+		
+			
 		String query = "For m in " + collectionName
 				+ " FILTER (m.sender == @userId1 && m.receiver == @userId2)|| (m.sender == @userId2 && m.receiver == @userId1) LIMIT "
 				+ offset + ", " + limit + " RETURN m";
@@ -82,5 +89,4 @@ public class ArangoChatHandler implements ChatHandler {
 		Message result = cursor.next();
 		return result;
 	}
-
 }
