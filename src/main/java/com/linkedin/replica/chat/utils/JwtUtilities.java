@@ -59,6 +59,7 @@ public class JwtUtilities {
                     .parseClaimsJws(token);
         }
         catch (JwtException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
