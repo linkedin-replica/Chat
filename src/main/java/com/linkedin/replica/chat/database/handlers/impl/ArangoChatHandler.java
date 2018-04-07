@@ -1,6 +1,5 @@
 package com.linkedin.replica.chat.database.handlers.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ public class ArangoChatHandler implements ChatHandler {
 	private Configuration config;
 	private ArangoDB arangoDriver;
 
-	public ArangoChatHandler() throws IOException {
+	public ArangoChatHandler() {
 		config = Configuration.getInstance();
 		arangoDriver = DatabaseConnection.getInstance().getArangoDriver();
 

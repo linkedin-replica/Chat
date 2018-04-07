@@ -1,13 +1,10 @@
 package com.linkedin.replica.chat.services;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 import com.linkedin.replica.chat.commands.Command;
 import com.linkedin.replica.chat.config.Configuration;
-import com.linkedin.replica.chat.database.handlers.ChatHandler;
 import com.linkedin.replica.chat.database.handlers.DatabaseHandler;
 
 /**

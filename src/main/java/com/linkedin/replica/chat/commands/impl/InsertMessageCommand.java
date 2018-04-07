@@ -1,6 +1,5 @@
 package com.linkedin.replica.chat.commands.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 

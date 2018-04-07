@@ -1,20 +1,7 @@
 package com.linkedin.replica.chat.models;
 
 import com.arangodb.entity.DocumentField;
-
-import java.io.StringReader;
-import java.util.Collections;
 import java.util.Date;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import javax.websocket.DecodeException;
-import javax.websocket.Decoder;
-import javax.websocket.EncodeException;
-import javax.websocket.Encoder;
-import javax.websocket.EndpointConfig;
 
 public class Message {
 

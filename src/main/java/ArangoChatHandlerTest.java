@@ -10,7 +10,6 @@ import com.linkedin.replica.chat.config.Configuration;
 import com.linkedin.replica.chat.database.DatabaseConnection;
 import org.junit.*;
 
-import com.linkedin.replica.chat.main.Chat;
 import com.linkedin.replica.chat.database.handlers.impl.ArangoChatHandler;
 import com.linkedin.replica.chat.models.Message;
 
