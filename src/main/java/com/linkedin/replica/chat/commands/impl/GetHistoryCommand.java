@@ -23,7 +23,8 @@ public class GetHistoryCommand extends Command {
 
 		ChatHandler chatHandler = (ChatHandler) this.dbHandler;
 
-		if ((limit.equals(null) && offset.equals(null) || (limit.isEmpty() && offset.isEmpty()))) {
+		if ((limit.equals(null) || offset.equals(null) || (limit.equals(null) && offset.equals(null))
+				|| limit.isEmpty() || offset.isEmpty() || (limit.isEmpty() && offset.isEmpty()))) {
 			chatHandler.getChatHistory(userId1, userId2);
 		} else {
 			chatHandler.getChatHistory(userId1, userId2, Integer.parseInt(offset), Integer.parseInt(limit));

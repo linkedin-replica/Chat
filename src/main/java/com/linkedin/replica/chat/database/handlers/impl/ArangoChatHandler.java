@@ -76,7 +76,6 @@ public class ArangoChatHandler implements ChatHandler {
 
 	public Message getLatestMessage() {
 		String query = "For m in " + collectionName + " Sort m._key desc RETURN m";
-		Map<String, Object> bindVars = new HashMap<String, Object>();
 
 		// process query
 		ArangoCursor<Message> cursor = dbInstance.query(query, null, null, Message.class);

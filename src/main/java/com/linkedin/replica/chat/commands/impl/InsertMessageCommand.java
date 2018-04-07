@@ -17,7 +17,6 @@ public class InsertMessageCommand extends Command {
 	public String execute(){
 
 		ChatHandler chatHandler = (ChatHandler) this.dbHandler;
-		validateArgs(new String[]{"messages"});
 
 		chatHandler.insertMessages((ArrayList<Message>) args.get("messages"));
 
