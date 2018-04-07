@@ -12,13 +12,11 @@ public class RealtimeDataHandler {
     private ConcurrentHashMap<String, String> idToSessionMap, sessionToIdMap;
     private ConcurrentHashMap<String, String> externalOnlineUsersMap;
     private static RealtimeDataHandler instance;
-    private BroadcastMessageHandler broadcastMessageHandler;
     
     private RealtimeDataHandler() throws IOException, TimeoutException {
         idToSessionMap = new ConcurrentHashMap<String, String>();
         sessionToIdMap = new ConcurrentHashMap<String, String>();
         externalOnlineUsersMap = new ConcurrentHashMap<String, String>();
-        broadcastMessageHandler = new BroadcastMessageHandler();
     }
 
     public static void init() throws IOException, TimeoutException {
@@ -43,23 +41,23 @@ public class RealtimeDataHandler {
         if(sessionToIdMap.containsKey(sessionId))
             sessionToIdMap.remove(sessionId);
         idToSessionMap.put(userId, sessionId);
-        sessionToIdMap.put(sessionId, userId);
-        
-    	broadcastMessageHandler.broadcastRegisterNewUser(userId);
+        sessionToIdMap.put(sessionId, userId);        
     }
 
     public void disconnectUser(String sessionId) throws IOException {
         if(sessionToIdMap.containsKey(sessionId)) {
             String userId = sessionToIdMap.remove(sessionId);
             if(idToSessionMap.containsKey(userId))
-                idToSessionMap.remove(userId);
-            
-            broadcastMessageHandler.broadcastUnregisterUser(userId);
+                idToSessionMap.remove(userId);            
         }
     }
 
     private boolean isUserConnectedHere(String userId) {
         return idToSessionMap.containsKey(userId);
+    }
+    
+    public String getUserId(String sessionId){
+    	return sessionToIdMap.get(sessionId);
     }
 
     public void sendMessage(SocketIOServer server, String senderId, String receiverId, ChatObject data) {

@@ -2,9 +2,11 @@ package com.linkedin.replica.chat.main;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeoutException;
 
 import com.linkedin.replica.chat.config.Configuration;
 import com.linkedin.replica.chat.database.DatabaseConnection;
+import com.linkedin.replica.chat.messaging.BroadcastMessageHandler;
 import com.linkedin.replica.chat.realtime.RealtimeDataHandler;
 import com.linkedin.replica.chat.realtime.RealtimeServer;
 import com.linkedin.replica.chat.utils.JwtUtilities;
@@ -13,7 +15,7 @@ public class Main {
 
 	static  DatabaseConnection dbInstance;
 
-	public static void start() throws IOException, NoSuchAlgorithmException, InterruptedException {
+	public static void start() throws IOException, NoSuchAlgorithmException, InterruptedException, TimeoutException {
 
 		// create singleton instance of Configuration class
 		String rootPath = "src/main/resources/";
@@ -40,6 +42,15 @@ public class Main {
 			}
 		}).start();
 
+		new Thread(() -> {
+			try {
+				BroadcastMessageHandler handler = new BroadcastMessageHandler();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}).start();
+		
 	}
 
 	public static void shutdown() {
