@@ -27,5 +27,4 @@ public class Main {
 	public static void shutdown() {
 		dbInstance.closeConnections();
 	}
-
 }
