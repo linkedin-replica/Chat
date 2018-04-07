@@ -28,10 +28,18 @@ public class Main {
 		JwtUtilities.initKey();
 
 		RealtimeDataHandler.init();
+		
+		new Thread(() -> {
+			String chatIp = Configuration.getInstance().getAppConfigProp("chat.ip");
+			int chatPort = Integer.parseInt(Configuration.getInstance().getAppConfigProp("chat.port"));
+			try {
+				new RealtimeServer(chatIp, chatPort);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}).start();
 
-		String chatIp = Configuration.getInstance().getAppConfigProp("chat.ip");
-		int chatPort = Integer.parseInt(Configuration.getInstance().getAppConfigProp("chat.port"));
-		new RealtimeServer(chatIp, chatPort);
 	}
 
 	public static void shutdown() {

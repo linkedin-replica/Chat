@@ -1,20 +1,27 @@
 package com.linkedin.replica.chat.realtime;
 
 import com.corundumstudio.socketio.SocketIOServer;
+import com.linkedin.replica.chat.messaging.BroadcastMessageHandler;
 
+import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeoutException;
 
 public class RealtimeDataHandler {
     private ConcurrentHashMap<String, String> idToSessionMap, sessionToIdMap;
+    private ConcurrentHashMap<String, String> externalOnlineUsersMap;
     private static RealtimeDataHandler instance;
-
-    private RealtimeDataHandler() {
-        idToSessionMap = new ConcurrentHashMap<>();
-        sessionToIdMap = new ConcurrentHashMap<>();
+    private BroadcastMessageHandler broadcastMessageHandler;
+    
+    private RealtimeDataHandler() throws IOException, TimeoutException {
+        idToSessionMap = new ConcurrentHashMap<String, String>();
+        sessionToIdMap = new ConcurrentHashMap<String, String>();
+        externalOnlineUsersMap = new ConcurrentHashMap<String, String>();
+        broadcastMessageHandler = new BroadcastMessageHandler();
     }
 
-    public static void init() {
+    public static void init() throws IOException, TimeoutException {
         instance = new RealtimeDataHandler();
     }
 
@@ -22,21 +29,32 @@ public class RealtimeDataHandler {
         return instance;
     }
 
-
-    public void connectUser(String userId, String sessionId) {
+    public void registerExternalUser(String userId, String serverQueueName){
+    	externalOnlineUsersMap.put(userId, serverQueueName);
+    }
+    
+    public void unRegisterExternalUser(String userId){
+    	externalOnlineUsersMap.remove(userId);
+    }
+    
+    public void connectUser(String userId, String sessionId) throws IOException {
         if(idToSessionMap.containsKey(userId))
             idToSessionMap.remove(userId);
         if(sessionToIdMap.containsKey(sessionId))
             sessionToIdMap.remove(sessionId);
         idToSessionMap.put(userId, sessionId);
         sessionToIdMap.put(sessionId, userId);
+        
+    	broadcastMessageHandler.broadcastRegisterNewUser(userId);
     }
 
-    public void disconnectUser(String sessionId) {
+    public void disconnectUser(String sessionId) throws IOException {
         if(sessionToIdMap.containsKey(sessionId)) {
             String userId = sessionToIdMap.remove(sessionId);
             if(idToSessionMap.containsKey(userId))
                 idToSessionMap.remove(userId);
+            
+            broadcastMessageHandler.broadcastUnregisterUser(userId);
         }
     }
 
