@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class JwtUtilities {
     private static byte[] secretKey ;
 
@@ -21,8 +20,8 @@ public class JwtUtilities {
     }
 
     public static void initKey() throws NoSuchAlgorithmException {
-//        secretKey = generateSecretKey();
-        secretKey = "hatem".getBytes();
+        secretKey = generateSecretKey();
+//        secretKey = "hatem".getBytes();
     }
 
     /**
@@ -39,11 +38,11 @@ public class JwtUtilities {
         claims.put("receiverId", receiverId);
         return Jwts.builder()
                 .setClaims(claims)
-                .setId(senderId)
-                .setIssuedAt(new Date())
-                .setIssuer("linkedin.chat")
-                .setExpiration(generateExpirationDate(600))
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+//                .setId(senderId)
+//                .setIssuedAt(new Date())
+//                .setIssuer("linkedin.chat")
+//                .setExpiration(generateExpirationDate(600L))
+//                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
@@ -67,5 +66,10 @@ public class JwtUtilities {
     private static Date generateExpirationDate(long minutes) {
         return new Date(System.currentTimeMillis() + minutes * 60 * 1000);
     }
+    
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+    	initKey();
+		System.out.println(generateToken("1", "2"));
+	}
 }
 

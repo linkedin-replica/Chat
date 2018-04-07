@@ -9,37 +9,43 @@ import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDatabase;
-
 import com.linkedin.replica.chat.config.Configuration;
 import com.linkedin.replica.chat.database.DatabaseConnection;
-import com.linkedin.replica.chat.database.handlers.ChatHandler;
+import com.linkedin.replica.chat.database.handlers.RegisterHandler;
 import com.linkedin.replica.chat.models.Message;
+import com.linkedin.replica.chat.models.RegisterSessionInfo;
+import com.linkedin.replica.chat.utils.JwtUtilities;
 
-public class ArangoChatHandler implements ChatHandler {
+public class SessionRegisterHandler implements RegisterHandler{
 	private ArangoDatabase dbInstance;
-	private ArangoCollection collection;
 	private String collectionName;
 	private Configuration config;
 	private ArangoDB arangoDriver;
 
-	public ArangoChatHandler() {
+	public SessionRegisterHandler() {
 		config = Configuration.getInstance();
 		arangoDriver = DatabaseConnection.getInstance().getArangoDriver();
 
 		collectionName = config.getArangoConfigProp("collection.messages.name");
 		dbInstance = arangoDriver.db(config.getArangoConfigProp("db.name"));
-		collection = dbInstance.collection(collectionName);
 	}
 
-	public void insertMessages(ArrayList<Message> msgs){
-		collection.insertDocuments(msgs);
+	@Override
+	public RegisterSessionInfo register(String senderId, String receiverId, String offset, String limit) {
+		List<Message> history = getChatHistory(senderId, receiverId, offset, limit);
+		return getSessionInfo(senderId, receiverId, history);
 	}
 
-	public Message getMessage(String messageId) {
-		return collection.getDocument(messageId, Message.class);
-	}
+    private RegisterSessionInfo getSessionInfo(String senderId, String receiverId, List<Message> history) {
+        String ip = config.getAppConfigProp("chat.ip");
+        String port = config.getAppConfigProp("chat.port");
 
-	public List<Message> getChatHistory(String userId1, String userId2, String strOffset, String strLimit) {
+        String token = JwtUtilities.generateToken(senderId, receiverId);
+        
+        return new RegisterSessionInfo(ip, port, token, history);
+    }
+	
+	private List<Message> getChatHistory(String userId1, String userId2, String strOffset, String strLimit) {
 		int offset, limit;
 		
 		// validate and set offset
@@ -78,15 +84,6 @@ public class ArangoChatHandler implements ChatHandler {
 		ArrayList<Message> result = new ArrayList<Message>();
 		for (; cursor.hasNext();)
 			result.add(cursor.next());
-		return result;
-	}
-
-	public Message getLatestMessage() {
-		String query = "For m in " + collectionName + " Sort m._key desc RETURN m";
-
-		// process query
-		ArangoCursor<Message> cursor = dbInstance.query(query, null, null, Message.class);
-		Message result = cursor.next();
 		return result;
 	}
 }

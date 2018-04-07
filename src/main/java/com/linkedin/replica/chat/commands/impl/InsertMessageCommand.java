@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.linkedin.replica.chat.commands.Command;
-import com.linkedin.replica.chat.database.handlers.ChatHandler;
+import com.linkedin.replica.chat.database.handlers.MessageHandler;
 import com.linkedin.replica.chat.models.Message;
 
 public class InsertMessageCommand extends Command {
@@ -16,7 +16,7 @@ public class InsertMessageCommand extends Command {
 	@Override
 	public String execute(){
 
-		ChatHandler chatHandler = (ChatHandler) this.dbHandler;
+		MessageHandler chatHandler = (MessageHandler) this.dbHandler;
 
 		chatHandler.insertMessages((ArrayList<Message>) args.get("messages"));
 

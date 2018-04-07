@@ -1,14 +1,19 @@
 package com.linkedin.replica.chat.models;
 
-public class ChatSessionInfo {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RegisterSessionInfo {
     private String ip;
     private String port;
     private String sessionToken;
+    private List<Message> history;
 
-    public ChatSessionInfo(String ip, String port, String sessionToken) {
+    public RegisterSessionInfo(String ip, String port, String sessionToken, List<Message> history) {
         this.ip = ip;
         this.port = port;
         this.sessionToken = sessionToken;
+        this.history = history;
     }
 
     public String getIp() {
@@ -22,4 +27,8 @@ public class ChatSessionInfo {
     public String getSessionToken() {
         return sessionToken;
     }
+
+	public List<Message> getHistory() {
+		return history;
+	}
 }
