@@ -1,7 +1,7 @@
 package com.linkedin.replica.chat.config;
 
 import com.linkedin.replica.chat.commands.Command;
-import com.linkedin.replica.chat.database.handlers.ChatHandler;
+import com.linkedin.replica.chat.database.handlers.MessageHandler;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -65,7 +65,7 @@ public class Configuration {
 	}
 
 	public Class getDatabaseHandlerClass(String commandName) throws ClassNotFoundException {
-		String handlerPackageName = ChatHandler.class.getPackage().getName() + ".impl";
+		String handlerPackageName = MessageHandler.class.getPackage().getName() + ".impl";
 		String handlerClassPath = handlerPackageName + "." + commandConfig.get(commandName + ".handler");
 		return Class.forName(handlerClassPath);
 	}

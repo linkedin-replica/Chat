@@ -14,7 +14,7 @@ public abstract class Command {
 		this.args = args;
 	}
 
-	public abstract String execute();
+	public abstract Object execute();
 	
 	public void setDbHandler(DatabaseHandler dbHandler) {
         this.dbHandler = dbHandler;

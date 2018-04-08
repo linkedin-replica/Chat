@@ -10,7 +10,7 @@ public class Message {
 
 	private String sender;
 	private String receiver;
-	private Date timestamp;
+	private long timestamp;
 	private String msg;
 
 	public Message() {
@@ -48,11 +48,11 @@ public class Message {
 		this.receiver = receiver;
 	}
 
-	public Date getTimestamp() {
+	public long getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
