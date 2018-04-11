@@ -8,12 +8,19 @@ public class Message {
 	@DocumentField(DocumentField.Type.KEY)
 	private String id;
 
-	private String sender;
-	private String receiver;
+	private String senderId;
+	private String receiverId;
 	private long timestamp;
-	private String msg;
+	private String message;
 
 	public Message() {
+	}
+
+	public Message(String senderId, String receiverId, long timeStamp, String message) {
+		this.senderId = senderId;
+		this.receiverId = receiverId;
+		this.timestamp = timeStamp;
+		this.message = message;
 	}
 
 	public String getId() {
@@ -24,28 +31,28 @@ public class Message {
 		this.id = id;
 	}
 
-	public String getMsg() {
-		return msg;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public void setMessage(String msg) {
+		this.message = msg;
 	}
 
-	public String getSender() {
-		return sender;
+	public String getSenderId() {
+		return senderId;
 	}
 
-	public void setSender(String sender) {
-		this.sender = sender;
+	public void setSenderId(String senderId) {
+		this.senderId = senderId;
 	}
 
-	public String getReceiver() {
-		return receiver;
+	public String getReceiverId() {
+		return receiverId;
 	}
 
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
+	public void setReceiverId(String receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public long getTimestamp() {

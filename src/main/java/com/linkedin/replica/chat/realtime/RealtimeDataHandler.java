@@ -1,17 +1,21 @@
 package com.linkedin.replica.chat.realtime;
 
 import com.corundumstudio.socketio.SocketIOServer;
-import com.linkedin.replica.chat.messaging.BroadcastMessageHandler;
+import com.linkedin.replica.chat.config.Configuration;
 import com.linkedin.replica.chat.messaging.InterChatServersMessageHandler;
+import com.linkedin.replica.chat.models.Message;
 
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 
 public class RealtimeDataHandler {
     private ConcurrentHashMap<String, String> idToSessionMap, sessionToIdMap;
     private ConcurrentHashMap<String, String> externalOnlineUsersMap;
+    private final ConcurrentLinkedQueue<Message> messagesBuffer;
+    private final int MAX_BUFFER_SIZE = Integer.parseInt(Configuration.getInstance().getAppConfigProp("max.buffer.size"));
     private InterChatServersMessageHandler interChatServersMessageHandler;
     private SocketIOServer server;
     private static RealtimeDataHandler instance;
@@ -21,6 +25,8 @@ public class RealtimeDataHandler {
         idToSessionMap = new ConcurrentHashMap<>();
         sessionToIdMap = new ConcurrentHashMap<>();
         externalOnlineUsersMap = new ConcurrentHashMap<>();
+        messagesBuffer = new ConcurrentLinkedQueue<>();
+
         interChatServersMessageHandler = new InterChatServersMessageHandler();
     }
 
@@ -70,6 +76,10 @@ public class RealtimeDataHandler {
         if(isUserConnectedHere(receiverId)) {
             server.getClient(UUID.fromString(idToSessionMap.get(receiverId)))
                     .sendEvent("chatevent", message);
+            messagesBuffer.add(new Message(senderId, receiverId, System.currentTimeMillis(), message));
+            if(messagesBuffer.size() > MAX_BUFFER_SIZE) {
+                // TODO flush buffer
+            }
         }
         else if(externalOnlineUsersMap.containsKey(receiverId)) {
             interChatServersMessageHandler.sendMessage(senderId, receiverId, message, externalOnlineUsersMap.get(receiverId));
@@ -77,6 +87,6 @@ public class RealtimeDataHandler {
         else {
             // user is offline; do nothing
         }
-        // TODO append to buffer
     }
+
 }
