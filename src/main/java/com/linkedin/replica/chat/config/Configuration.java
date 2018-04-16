@@ -83,6 +83,7 @@ public class Configuration {
 	}
 
 	public String getCommandConfigProp(String key){
+		System.out.println(commandConfig);
 		return commandConfig.getProperty(key);
 	}
 

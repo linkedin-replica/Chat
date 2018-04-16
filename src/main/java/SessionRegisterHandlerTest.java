@@ -54,17 +54,17 @@ public class SessionRegisterHandlerTest {
 		ArrayList<Message> messages = new ArrayList<>();
 		Message msg = new Message();
 		msg.setId("34");
-		msg.setSender("1");
-		msg.setReceiver("2");
+		msg.setSenderId("1");
+		msg.setReceiverId("2");
 		msg.setTimestamp(new Date().getTime());
-		msg.setMsg("jojojojoojjojojojojo");
+		msg.setMessage("jojojojoojjojojojojo");
 
 		Message msg1 = new Message();
 		msg1.setId("35");
-		msg1.setSender("1");
-		msg1.setReceiver("2");
+		msg1.setSenderId("1");
+		msg1.setReceiverId("2");
 		msg1.setTimestamp(new Date().getTime());
-		msg1.setMsg("jojojojo");
+		msg1.setMessage("jojojojo");
 
 		messages.add(msg);
 		messages.add(msg1);
@@ -83,17 +83,17 @@ public class SessionRegisterHandlerTest {
 		ArrayList<Message> messages = new ArrayList<>();
 		Message msg = new Message();
 		msg.setId("34");
-		msg.setSender("1");
-		msg.setReceiver("2");
+		msg.setSenderId("1");
+		msg.setReceiverId("2");
 		msg.setTimestamp(new Date().getTime());
-		msg.setMsg("jojojojoojjojojojojo");
+		msg.setMessage("jojojojoojjojojojojo");
 
 		Message msg1 = new Message();
 		msg1.setId("35");
-		msg1.setSender("1");
-		msg1.setReceiver("2");
+		msg1.setSenderId("1");
+		msg1.setReceiverId("2");
 		msg1.setTimestamp(new Date().getTime());
-		msg1.setMsg("jojojojo");
+		msg1.setMessage("jojojojo");
 
 		messages.add(msg);
 		messages.add(msg1);

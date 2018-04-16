@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDatabase;
@@ -72,7 +71,7 @@ public class SessionRegisterHandler implements RegisterHandler{
 		
 			
 		String query = "For m in " + collectionName
-				+ " FILTER (m.sender == @userId1 && m.receiver == @userId2)|| (m.sender == @userId2 && m.receiver == @userId1) LIMIT "
+				+ " FILTER (m.senderId == @userId1 && m.receiverId == @userId2)|| (m.senderId == @userId2 && m.receiverId == @userId1) LIMIT "
 				+ offset + ", " + limit + " RETURN m";
 		Map<String, Object> bindVars = new HashMap<String, Object>();
 		bindVars.put("userId1", userId1);
