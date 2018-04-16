@@ -23,7 +23,7 @@ public class ChatConnectListener implements ConnectListener{
     public void onConnect(SocketIOClient socketIOClient) {
         String token = socketIOClient.getHandshakeData().getSingleUrlParam("threadToken");
         Jws<Claims> claims = JwtUtilities.getClaims(token);
-
+        
         if(claims == null)
             return;
 
