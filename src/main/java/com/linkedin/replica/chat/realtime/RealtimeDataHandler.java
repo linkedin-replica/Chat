@@ -38,14 +38,10 @@ public class RealtimeDataHandler {
 			TimeoutException {
 		if (instance == null) {
 			instance = new RealtimeDataHandler(server);
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					bufferWatcher.startTimer(); // start timer thread
-					bufferWatcher.run();
-				}
-			});
+			new Thread(() -> {
+                bufferWatcher.startTimer(); // start timer thread
+                bufferWatcher.run();
+            }).start();
 		}
 	}
 
@@ -90,7 +86,7 @@ public class RealtimeDataHandler {
 
 	public void sendMessage(String senderId, String receiverId, String message) throws IOException {
 		if (isUserConnectedHere(receiverId)) {
-			server.getClient(UUID.fromString(idToSessionMap.get(receiverId))).sendEvent("chatevent", message);
+            server.getClient(UUID.fromString(idToSessionMap.get(receiverId))).sendEvent("chatevent", message);
 			consumerQueue.add(new Message(senderId, receiverId, System.currentTimeMillis(), message)); // add new message to queue
 		
 		} else if (externalOnlineUsersMap.containsKey(receiverId)) {

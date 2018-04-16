@@ -24,7 +24,7 @@ public class BufferWatcher implements Runnable {
 	public BufferWatcher(BlockingQueue<Message> consumerQueue) {
 		this.consumerQueue = consumerQueue;
 		this.chatService = new ChatService();
-		this.buffer = new ArrayList<Message>(MAX_BUFFER_SIZE);
+		this.buffer = new ArrayList<>(MAX_BUFFER_SIZE);
 	}
 
 	public void startTimer() {
@@ -33,13 +33,13 @@ public class BufferWatcher implements Runnable {
 			@Override
 			public void run() {
 				try {
-					flushBuffer();
+					flushBuffer(true);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-		}, 0, TIMER_PERIOD);
+		}, TIMER_PERIOD, TIMER_PERIOD);
 		
 	}
 
@@ -51,7 +51,7 @@ public class BufferWatcher implements Runnable {
 				if (buffer.size() <= MAX_BUFFER_SIZE) // check that buffer is not full
 					buffer.add(message);
 				else {
-					flushBuffer();
+					flushBuffer(false);
 				}
 
 			} catch (Exception e) {
@@ -61,17 +61,17 @@ public class BufferWatcher implements Runnable {
 		}
 	}
 
-	private void flushBuffer() throws Exception {
+	private void flushBuffer(boolean isTimer) throws Exception {
 		ArrayList<Message> bufferClone = null;
 		synchronized (this) {
-			if (buffer.size() >= MAX_BUFFER_SIZE) {
+			if (isTimer || buffer.size() >= MAX_BUFFER_SIZE) {
 				bufferClone = (ArrayList<Message>) buffer.clone(); // clone buffer for writing
-				buffer = new ArrayList<Message>(MAX_BUFFER_SIZE); // flush the  current buffer
+				buffer = new ArrayList<>(MAX_BUFFER_SIZE); // flush the  current buffer
 			}
 		}
 
-		if (bufferClone != null) {
-			String commandName = Configuration.getInstance().getCommandConfigProp("chat.insert"); // get command name
+		if (bufferClone != null && bufferClone.size() > 0) {
+			String commandName = "chat.insert";
 			HashMap<String, Object> args = new HashMap<String, Object>(); // construct arguments to command
 			args.put("messages", bufferClone);
 			

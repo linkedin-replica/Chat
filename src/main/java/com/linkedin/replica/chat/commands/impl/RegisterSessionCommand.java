@@ -14,8 +14,8 @@ public class RegisterSessionCommand extends Command {
     @Override
     public Object execute() {
         RegisterHandler handler = (RegisterHandler) this.dbHandler;
-        validateArgs(new String[] {"senderId", "receiverId"});
-        String senderId = args.get("senderId").toString();
+        validateArgs(new String[] {"userId", "receiverId"});
+        String senderId = args.get("userId").toString();
         String receiverId = args.get("receiverId").toString();
         String offset = null;
         String limit = null;
