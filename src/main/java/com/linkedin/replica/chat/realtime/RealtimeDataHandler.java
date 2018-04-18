@@ -84,17 +84,16 @@ public class RealtimeDataHandler {
 		return sessionToIdMap.get(sessionId);
 	}
 
-	public void sendMessage(String senderId, String receiverId, String message) throws IOException {
-		if (isUserConnectedHere(receiverId)) {
-			server.getClient(UUID.fromString(idToSessionMap.get(receiverId))).sendEvent("chatevent", message);
-			consumerQueue.add(new Message(senderId, receiverId, System.currentTimeMillis(), message)); // add new message to queue
+	public void sendMessage(Message message) throws IOException {
+		if (isUserConnectedHere(message.getReceiverId())) {
+			server.getClient(UUID.fromString(idToSessionMap.get(message.getReceiverId()))).sendEvent("chatevent", message);
+			consumerQueue.add(message); // add new message to queue
 
-		} else if (externalOnlineUsersMap.containsKey(receiverId)) {
-			interChatServersMessageHandler.sendMessage(senderId, receiverId, message,
-					externalOnlineUsersMap.get(receiverId));
+		} else if (externalOnlineUsersMap.containsKey(message.getReceiverId())) {
+			interChatServersMessageHandler.sendMessage(message, externalOnlineUsersMap.get(message.getReceiverId()));
 
 		} else { // receiver is offline
-			consumerQueue.add(new Message(senderId, receiverId, System.currentTimeMillis(), message)); // add new message to queue
+			consumerQueue.add(message); // add new message to queue
 		}
 	}
 }

@@ -4,6 +4,7 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
+import com.linkedin.replica.chat.models.Message;
 import com.linkedin.replica.chat.realtime.ChatObject;
 import com.linkedin.replica.chat.realtime.RealtimeDataHandler;
 import com.linkedin.replica.chat.utils.JwtUtilities;
@@ -32,6 +33,8 @@ public class ChatDataListener implements DataListener<ChatObject> {
         String senderId = claims.getBody().get("senderId").toString();
         String receiverId = claims.getBody().get("receiverId").toString();
 
-        realtimeDataHandler.sendMessage(senderId, receiverId, data.getMessage());
+        Message message = new Message(senderId, receiverId, System.currentTimeMillis(), data.getMessage());
+        realtimeDataHandler.sendMessage(message);
+        client.sendEvent("chatevent", message);
     }
 }

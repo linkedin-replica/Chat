@@ -1,6 +1,7 @@
 package com.linkedin.replica.chat.realtime;
 
 import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.linkedin.replica.chat.realtime.listeners.ChatConnectListener;
 import com.linkedin.replica.chat.realtime.listeners.ChatDataListener;
@@ -19,6 +20,10 @@ public class RealtimeServer {
         final Configuration config = new Configuration();
         config.setHostname(ip);
         config.setPort(port);
+
+        final SocketConfig socketConfig = new SocketConfig();
+        socketConfig.setReuseAddress(true);
+        config.setSocketConfig(socketConfig);
 
         server = new SocketIOServer(config);
         RealtimeDataHandler.init(server);

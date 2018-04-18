@@ -1,8 +1,10 @@
 package com.linkedin.replica.chat.messaging;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.linkedin.replica.chat.config.Configuration;
+import com.linkedin.replica.chat.models.Message;
 import com.linkedin.replica.chat.realtime.RealtimeDataHandler;
 import com.rabbitmq.client.*;
 
@@ -31,12 +33,8 @@ public class InterChatServersMessageHandler {
             public void handleDelivery(String consumerTag, Envelope envelope,
                                        AMQP.BasicProperties properties, byte[] body)
                     throws IOException {
-                JsonObject object = new JsonParser().parse(new String(body)).getAsJsonObject();
-                String senderId = object.get("senderId").getAsString();
-                String receiverId = object.get("receiverId").getAsString();
-                String message = object.get("message").getAsString();
-
-                RealtimeDataHandler.getInstance().sendMessage(senderId, receiverId, message);
+                Message message = new Gson().fromJson(new String(body), Message.class);
+                RealtimeDataHandler.getInstance().sendMessage(message);
             }
         };
 
@@ -44,12 +42,8 @@ public class InterChatServersMessageHandler {
         receiveChannel.basicConsume(QUEUE_NAME, true, consumer);
     }
 
-    public void sendMessage(String senderId, String receiverId, String message, String queueName) throws IOException {
-        JsonObject object = new JsonObject();
-        object.addProperty("senderId", senderId);
-        object.addProperty("receiverId", receiverId);
-        object.addProperty("message", message);
-
+    public void sendMessage(Message message, String queueName) throws IOException {
+        JsonObject object = (JsonObject) new Gson().toJsonTree(message);
         sendChannel.basicPublish("", queueName, null, object.toString().getBytes());
     }
 
